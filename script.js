@@ -152,7 +152,7 @@
   + '<button type="button" name="close" title="Close">&Cross;</button>'
   + '<input name="passphrase" type="password" placeholder="Enter your password" />'
   + '<button type="button" name="preview" title="Show encrypted password">&ofcir;</button>'
-  + '<button type="submit" title="Paste encrypted password to actve password field">&rtrif;</button>'
+  + '<button type="submit" title="Paste encrypted password to active password field">&rtrif;</button>'
   + '<style type="text/css">'
   + '#ROOT,#ROOT *{position:relative;margin:0 0 0 -1px;padding:0;vertical-align:middle;box-sizing:border-box;white-space:nowrap;font:normal normal 12px arial;color:#333;height:24px}'
   + '#ROOT :first-child{margin-left:0}'
