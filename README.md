@@ -17,7 +17,7 @@ Usage:
 3. You can see the "Password" widget in left-top side of page
 4. Enter your master password to the password field of the widget
 5. Tap to the password field on "sign-in" or "sign-up" form of the page
-6. Tap to the "&rtrif;" button on the widget 
+6. Tap to the [▸] button on the widget 
    (encrypted password will be inserted to the password field)
 
 Building (optional):
