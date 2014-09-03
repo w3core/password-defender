@@ -4,7 +4,7 @@
  * CryptoPass is the tiny bookmark script which allows to create unique strong
  * one-side password for each unique site by using your master password.
  * 
- * @version 2014.09.02
+ * @version 2014.09.03
  * 
  * @url http://w3core.github.io/cryptopass
  * @license BSD License
