@@ -3,7 +3,7 @@ CryptoPass
 
 CryptoPass is the tiny bookmark script which allows to create unique strong one-side password for each unique site by using your master password
 
-![Cryptopass widget](/src/site/img/controls.png "Cryptopass widget elements")
+![Cryptopass widget](https://rawgit.com/w3core/cryptopass/master/src/site/img/controls.png "Cryptopass widget elements")
 
 Features
 --------
@@ -17,26 +17,26 @@ Features
 Installation
 ------------
 1. Create new bookmark in most visible space of your browser 
-   ![Installation](/src/site/img/install-step-0.png)
-   ![Installation](/src/site/img/install-step-1.png)
+   ![Installation](https://rawgit.com/w3core/cryptopass/master/src/site/img/install-step-0.png)
+   ![Installation](https://rawgit.com/w3core/cryptopass/master/src/site/img/install-step-1.png)
 2. Set name of the bookmark as "Password" or somthing like that
 3. Copy to the clipboard content of [bookmark.js](/bookmark.js) file
 4. Set location URL of the bookmark (paste from clipboard)
-   ![Installation](/src/site/img/install-step-2.png)
+   ![Installation](https://rawgit.com/w3core/cryptopass/master/src/site/img/install-step-2.png)
 
 Usage
 -----
 1. Open "sign-in" or "sign-up" page of any site
 2. Tap to the "Password" bookmark
-   ![Usage](/src/site/img/usage-step-0.png)
+   ![Usage](https://rawgit.com/w3core/cryptopass/master/src/site/img/usage-step-0.png)
 3. You can see the "Password" widget in left-top side of page
 4. Enter your master password to the password field of the widget
-   ![Usage](/src/site/img/usage-step-1.png)
+   ![Usage](https://rawgit.com/w3core/cryptopass/master/src/site/img/usage-step-1.png)
 5. Tap to the password field on "sign-in" or "sign-up" form of the page
-   ![Usage](/src/site/img/usage-step-2.png)
+   ![Usage](https://rawgit.com/w3core/cryptopass/master/src/site/img/usage-step-2.png)
 6. Tap to the [▸] button on the widget
    (encrypted password will be inserted to the password field)
-   ![Usage](/src/site/img/usage-step-3.png)
+   ![Usage](https://rawgit.com/w3core/cryptopass/master/src/site/img/usage-step-3.png)
 
 Building (optional)
 -------------------
