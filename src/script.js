@@ -62,7 +62,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-(new function(HTML,self,document,location,unescape,encodeURIComponent){
+(!new function(HTML,self,document,location,unescape,encodeURIComponent){
 
  if(self.$_cryptopass_$!=null) return self.$_cryptopass_$.show();
 
@@ -135,11 +135,36 @@
   for (var i=0; i<passwd.length; i++) sum += passwd.charCodeAt(i);
   var i = (sum % 61) + 32;
   result = that.sha512(result.substr(0,i) + name + result.substr(i) + String.fromCharCode( '0x'+sum%251 )).toString();
-  return btoa(result).substr(64+sum%31, 32);
+  result = result.substr(0+sum%31, 32*3);
+  return passFromHash(result, 32);
+ }
+
+ function passFromHash (hash,passLength) {
+  // hash.lenght must be >= passLength * HEX2CHAR
+  var HEX2CHAR = 3;
+  var CHARS = 'abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!$@_-~';
+  var result = '';
+  for (var i = 0; i<passLength; i++) {
+   var partText = hash.substring(i*HEX2CHAR,(i+1)*HEX2CHAR);
+   var partVal  = parseInt(partText,16);
+   if (isNaN(partVal)) { throw('Too short hash string'); }
+   if (partVal < 0) { throw('Invalid hash string'); }
+   result += '' + CHARS.charAt(partVal % CHARS.length);
+  }
+  return result;
  }
 
  function parseSubDomain (url) {
-  return parseDomain(url).split('.')[0];
+  var mobile = 'pda,m,mob,mobile,tablet,tab'.split(',');
+  var parts = parseDomain(url).split('.');
+  var name = parts[0];
+  if (parts.length > 2) {
+   for (var i=0;i<mobile.length;i++) {
+    if (mobile[i] != name) continue;
+    name = parts[1]; break;
+   }
+  }
+  return name;
  }
 
  function parseDomain (url) {
