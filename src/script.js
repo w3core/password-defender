@@ -4,22 +4,34 @@
  * CryptoPass is the tiny bookmark script which allows to create unique strong
  * one-side password for each unique site by using your master password.
  *
- * Installation:
+ * Features
+ * --------
+ * + A unique one-way password for each site by using your single master password.
+ * + The generated password is extra strong and long independently by length of master password.
+ * + Does not require any registration, storage and any extentions.
+ * + Cross browser support.
+ * + Offline mode support.
+ * + Extra simple for usage.
+ * 
+ * Installation
+ * ------------
  * 1. Create new bookmark in most visible space of your browser
  * 2. Set name of the bookmark as "Password"
  * 3. Copy to the clipboard content of "bookmark.js" file.
  * 4. Set location URL of the bookmark (paste from clipboard)
  * 
- * Usage:
+ * Usage
+ * -----
  * 1. Open "sign-in" or "sign-up" page of any site
  * 2. Tap to the "Password" bookmark
  * 3. You can see the "Password" widget in left-top side of page
  * 4. Enter your master password to the password field of the widget
  * 5. Tap to the password field on "sign-in" or "sign-up" form of the page
- * 6. Tap to the ">" button on the widget 
+ * 6. Tap to the [▸] button on the widget 
  *    (encrypted password will be inserted to the password field)
- *
- * Building (optional):
+ * 
+ * Building (optional)
+ * -------------------
  * 1. Minify "src/script.js"
  * 2. Encode minified script by using URI scheme
  * 3. Wrap minified and encoded script "javascript:void(SOURCE)"
@@ -123,7 +135,7 @@
   for (var i=0; i<passwd.length; i++) sum += passwd.charCodeAt(i);
   var i = (sum % 61) + 32;
   result = that.sha512(result.substr(0,i) + name + result.substr(i) + String.fromCharCode( '0x'+sum%251 )).toString();
-  return result.substr(64+sum%31, 32).replace(/[a-z]/, function(v) { return v.toUpperCase(); });
+  return btoa(result).substr(64+sum%31, 32);
  }
 
  function parseSubDomain (url) {
