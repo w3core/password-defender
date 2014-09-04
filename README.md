@@ -7,12 +7,12 @@ CryptoPass is the tiny bookmark script which allows to create unique strong one-
 
 Features
 --------
-+ A unique one-way password for each site by using your single master password.
-+ The generated password is extra strong and long independently by length of master password.
-+ Does not require any registration, storage and any extentions.
-+ Cross browser support.
-+ Offline mode support.
-+ Extra simple for usage.
++ A unique one-way password for each site by using your single master password
++ The generated password is extra strong and long independently by length of master password
++ Does not require any registration, storage and any extentions
++ Cross browser support
++ Offline mode support
++ Extra simple for usage
 
 Installation
 ------------
@@ -20,7 +20,7 @@ Installation
    ![Installation](https://rawgit.com/w3core/cryptopass/master/src/site/img/install-step-0.png)
    ![Installation](https://rawgit.com/w3core/cryptopass/master/src/site/img/install-step-1.png)
 2. Set name of the bookmark as "Password" or somthing like that
-3. Copy to the clipboard content of [bookmark.js](/bookmark.js) file
+3. Copy to the clipboard content of [bookmark.js](https://github.com/w3core/cryptopass/blob/master/bookmark.js) file
 4. Set location URL of the bookmark (paste from clipboard)
    ![Installation](https://rawgit.com/w3core/cryptopass/master/src/site/img/install-step-2.png)
 
