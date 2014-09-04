@@ -38,6 +38,9 @@ Usage
    (encrypted password will be inserted to the password field)
    ![Usage](https://rawgit.com/w3core/cryptopass/master/src/site/img/usage-step-3.png)
 
+Also you can see or copy your encrypted password if you need
+![Usage](https://rawgit.com/w3core/cryptopass/master/src/site/img/usage-view-password.png)
+
 Building (optional)
 -------------------
 1. Minify "src/script.js"
