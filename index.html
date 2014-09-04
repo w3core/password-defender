@@ -1,58 +1,86 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>CryptoPass by w3core</title>
+    <meta name="description" content="CryptoPass : CryptoPass is the tiny bookmark script which allows to create unique strong one-side password for each unique site by using your master password">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <title>CryptoPass</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>CryptoPass</h1>
-        <p>CryptoPass is the tiny bookmark script which allows to create unique strong one-side password for each unique site by using your master password</p>
-        <p class="view"><a href="https://github.com/w3core/cryptopass">View the Project on GitHub <small>w3core/cryptopass</small></a></p>
-        <ul>
-          <li><a href="https://github.com/w3core/cryptopass/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/w3core/cryptopass/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/w3core/cryptopass">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/w3core/cryptopass">View on GitHub</a>
+
+          <h1 id="project_title">CryptoPass</h1>
+          <h2 id="project_tagline">CryptoPass is the tiny bookmark script which allows to create unique strong one-side password for each unique site by using your master password</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/w3core/cryptopass/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/w3core/cryptopass/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>
 <a name="cryptopass" class="anchor" href="#cryptopass"><span class="octicon octicon-link"></span></a>CryptoPass</h1>
 
 <p>CryptoPass is the tiny bookmark script which allows to create unique strong one-side password for each unique site by using your master password</p>
 
+<p><img src="https://rawgit.com/w3core/cryptopass/master/src/site/img/controls.png" alt="Cryptopass widget" title="Cryptopass widget elements"></p>
+
 <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation:</h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>A unique one-way password for each site by using your single master password.</li>
+<li>The generated password is extra strong and long independently by length of master password.</li>
+<li>Does not require any registration, storage and any extentions.</li>
+<li>Cross browser support.</li>
+<li>Offline mode support.</li>
+<li>Extra simple for usage.</li>
+</ul><h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <ol>
-<li>Create new bookmark in most visible space of your browser</li>
-<li>Set name of the bookmark as "Password"</li>
-<li>Copy to the clipboard content of "bookmark.js" file.</li>
-<li>Set location URL of the bookmark (paste from clipboard)</li>
+<li>Create new bookmark in most visible space of your browser 
+<img src="https://rawgit.com/w3core/cryptopass/master/src/site/img/install-step-0.png" alt="Installation"><img src="https://rawgit.com/w3core/cryptopass/master/src/site/img/install-step-1.png" alt="Installation">
+</li>
+<li>Set name of the bookmark as "Password" or somthing like that</li>
+<li>Copy to the clipboard content of <a href="/bookmark.js">bookmark.js</a> file</li>
+<li>Set location URL of the bookmark (paste from clipboard)
+<img src="https://rawgit.com/w3core/cryptopass/master/src/site/img/install-step-2.png" alt="Installation">
+</li>
 </ol><h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage:</h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <ol>
 <li>Open "sign-in" or "sign-up" page of any site</li>
-<li>Tap to the "Password" bookmark</li>
+<li>Tap to the "Password" bookmark
+<img src="https://rawgit.com/w3core/cryptopass/master/src/site/img/usage-step-0.png" alt="Usage">
+</li>
 <li>You can see the "Password" widget in left-top side of page</li>
-<li>Enter your master password to the password field of the widget</li>
-<li>Tap to the password field on "sign-in" or "sign-up" form of the page</li>
-<li>Tap to the [▸] button on the widget 
-(encrypted password will be inserted to the password field)</li>
+<li>Enter your master password to the password field of the widget
+<img src="https://rawgit.com/w3core/cryptopass/master/src/site/img/usage-step-1.png" alt="Usage">
+</li>
+<li>Tap to the password field on "sign-in" or "sign-up" form of the page
+<img src="https://rawgit.com/w3core/cryptopass/master/src/site/img/usage-step-2.png" alt="Usage">
+</li>
+<li>Tap to the [▸] button on the widget
+(encrypted password will be inserted to the password field)
+<img src="https://rawgit.com/w3core/cryptopass/master/src/site/img/usage-step-3.png" alt="Usage">
+</li>
 </ol><h2>
-<a name="building-optional" class="anchor" href="#building-optional"><span class="octicon octicon-link"></span></a>Building (optional):</h2>
+<a name="building-optional" class="anchor" href="#building-optional"><span class="octicon octicon-link"></span></a>Building (optional)</h2>
 
 <ol>
 <li>Minify "src/script.js"</li>
@@ -62,11 +90,16 @@
 </ol>
       </section>
     </div>
-    <footer>
-      <p>Project maintained by <a href="https://github.com/w3core">w3core</a></p>
-      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
-    </footer>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">CryptoPass maintained by <a href="https://github.com/w3core">w3core</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
     
+
   </body>
 </html>
