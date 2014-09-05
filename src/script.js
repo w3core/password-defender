@@ -37,7 +37,7 @@
  * 3. Wrap minified and encoded script "javascript:void(SOURCE)"
  * 4. Save as "bookmark.js"
  * 
- * @version 2014.09.05
+ * @version 2014.09.05 17:37
  * 
  * @url http://w3core.github.io/cryptopass
  * @license BSD License
@@ -72,15 +72,12 @@
   initEscapeHandler();
   initPasswordFieldHandler();
   DOM().addEventListener('submit', function(e){
-   if (!PASSPHRASE.value.length) {
-    alert('Please, enter your password');
-    PASSPHRASE.focus();
-    return false;
-   }
+   var o = opts();
+   if (!o) return false;
    if (!HERE) return alert('Please, set focus to password field where the password should to be pasted and then press "PASTE" button.');
    HERE.focus();
    setTimeout(function(){
-    HERE.value = make(PASSPHRASE.value);
+    HERE.value = make(o.name,o.pwd);
    },100);
   }, false);
   show();
@@ -96,7 +93,9 @@
    if (close) close.addEventListener('click', hide, false);
    var preview = s.querySelector('[name=preview]');
    if (preview) preview.addEventListener('click', function(){
-    prompt('Your password is:', make(PASSPHRASE.value));
+    var o = opts();
+    if (!o) return false;
+    prompt('Your password is:', make(o.name,o.pwd));
    }, false);
    self.$_cryptopass_$ = s;
   }
@@ -115,9 +114,36 @@
   }
  }
 
+ function opts () {
+  var o = {};
+  var url = DOM().querySelector('[name=url]');
+  if (url == null) o.name = parseSubDomain();
+  else {
+   if (!url.value || !url.value.length) {
+    alert ('Please, enter site URL');
+    url.focus();
+    return !1;
+   }
+   o.name = parseSubDomain(url.value);
+  }
+  var pwd = DOM().querySelector('[name=passphrase]');
+  if (pwd == null || !pwd.value || !pwd.value.length) {
+   alert ('Please, enter your password');
+   if (pwd != null) pwd.focus();
+   return !1;
+  }
+  o.pwd = pwd.value;
+  return o;
+ }
+
  function initPasswordFieldHandler () {
   document.body.addEventListener('click', function(){
-   if (document.activeElement && document.activeElement.type == 'password' && document.activeElement != PASSPHRASE) HERE = document.activeElement;
+   if (
+     document.activeElement
+     && document.activeElement.type
+     && document.activeElement.type.toLowerCase() == 'password'
+     && document.activeElement != PASSPHRASE
+   ) HERE = document.activeElement;
   }, false);
  }
 
@@ -127,10 +153,9 @@
   }, false);
  }
 
- function make (passphrase) {
+ function make (name, passphrase) {
   var passwd = unescape(encodeURIComponent(passphrase));
   var result = that.sha512(passwd).toString();
-  var name = parseSubDomain();
   var sum = 0;
   for (var i=0; i<passwd.length; i++) sum += passwd.charCodeAt(i);
   var i = (sum % 61) + 32;
@@ -155,8 +180,10 @@
  }
 
  function parseSubDomain (url) {
+  var domain = parseDomain(arguments.length ? String(url) : location.href);
+  if (domain.match(/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/)) return domain;
   var mobile = 'pda,m,mob,mobile,tablet,tab'.split(',');
-  var parts = parseDomain(url).split('.');
+  var parts = domain.split('.');
   var name = parts[0];
   if (parts.length > 2) {
    for (var i=0;i<mobile.length;i++) {
@@ -168,7 +195,8 @@
  }
 
  function parseDomain (url) {
-  var url = url ? String(url) : location.href;
+  var url = arguments.length ? String(url) : location.href;
+  if (navigator.userAgent.toLowerCase().match(/(opera|chrome)/g) && url.match(/^[0-9.]+$/)) return url; // Blink engine bugfix
   url = url.match(/^[htfps]{3,5}\:\/\//i) ? url : (location.protocol + '//' + url);
   var a = document.createElement('a');
   a.href = url;
