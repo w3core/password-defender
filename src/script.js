@@ -37,7 +37,7 @@
  * 3. Wrap minified and encoded script "javascript:void(SOURCE)"
  * 4. Save as "bookmark.js"
  * 
- * @version 2014.09.03
+ * @version 2014.09.05
  * 
  * @url http://w3core.github.io/cryptopass
  * @license BSD License
@@ -204,11 +204,11 @@ this.low):32>b?new a(this.high>>>b,this.low>>>b|this.high<<32-b):32==b?new a(0,t
     '<form id="ROOT" action="javascript:void(0)">'
   + '<button type="button" name="close" title="Close [ESC]">&times;</button>'
   + '<style type="text/css">'
-  + '#ROOT:before {content:"";display:block;position:absolute;width:100%;height:100%;box-shadow:0 0 2px #000;border-radius:0 0 3px 0}'
   + '#ROOT :focus{outline:none}#ROOT ::-moz-focus-inner{border:0}'
   + '#ROOT{z-index:65535;display:block;position:fixed;top:0;left:0;margin:0;padding:0;border-radius:0 0 3px 0;box-shadow:0 0 100px #fff,0 0 100px #fff;width:auto;height:auto;white-space:nowrap;font-size:0;line-height:0}'
-  + '#ROOT *{position:relative;height:32px;min-height:initial;border-radius:0;vertical-align:middle;box-sizing:border-box;box-shadow:none;margin:0 0 0 -1px;text-decoration:none;text-transform:none;border:1px solid #4173c9;padding:0;text-align:center;color:#fff}'
-  + '#ROOT input{z-index:1;display:inline-block;width:160px;background:#f3f3f3;text-shadow:1px 1px 0 #fff;font:normal normal 13px arial,sans-serif;line-height:30px;color:#333}'
+  + '#ROOT *{position:relative;height:32px;min-height:initial;border-radius:0;vertical-align:middle;box-sizing:border-box;box-shadow:none;margin:0 0 0 -1px;text-decoration:none;text-transform:none;border:1px solid #4173c9;padding:0;color:#fff}'
+  + '#ROOT:before {content:"";display:block;position:absolute;width:100%;height:100%;box-shadow:0 0 2px #000;border-radius:0 0 3px 0}'
+  + '#ROOT input{z-index:1;display:inline-block;width:160px;background:#f3f3f3;text-shadow:1px 1px 0 #fff;font:normal normal 13px arial,sans-serif;line-height:30px;text-align:center;color:#333}'
   + '#ROOT button{z-index:2;cursor:pointer;display:inline-block;font:normal bold 16px arial,sans-serif;text-shadow:0 -1px 0 rgba(0,0,0,.5);width:32px;line-height:28px;background:-moz-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5e8ee4),color-stop(100%,#4173c9));background:-webkit-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-o-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-ms-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:linear-gradient(to bottom,#5e8ee4 0,#4173c9 100%)}'
   + '#ROOT button:hover{border-color:#396bbc;background:-moz-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5587d7),color-stop(100%,#396bbc));background:-webkit-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-o-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-ms-linear-gradient(top,#5587d7 0,#396bbc 100%);background:linear-gradient(to bottom,#5587d7 0,#396bbc 100%)}'
   + '#ROOT button:active{box-shadow:inset 0 2px 4px rgba(0,0,0,.24)}#ROOT :last-child{border-radius:0 0 2px 0}'
