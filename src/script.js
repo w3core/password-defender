@@ -202,7 +202,7 @@ this.low):32>b?new a(this.high>>>b,this.low>>>b|this.high<<32-b):32==b?new a(0,t
 
 }(
     '<form id="ROOT" action="javascript:void(0)">'
-  + '<button type="button" name="close" title="Close [ESC]">&Cross;</button>'
+  + '<button type="button" name="close" title="Close [ESC]">&times;</button>'
   + '<style type="text/css">'
   + '#ROOT:before {content:"";display:block;position:absolute;width:100%;height:100%;box-shadow:0 0 2px #000;border-radius:0 0 3px 0}'
   + '#ROOT :focus{outline:none}#ROOT ::-moz-focus-inner{border:0}'
@@ -214,8 +214,8 @@ this.low):32>b?new a(this.high>>>b,this.low>>>b|this.high<<32-b):32==b?new a(0,t
   + '#ROOT button:active{box-shadow:inset 0 2px 4px rgba(0,0,0,.24)}#ROOT :last-child{border-radius:0 0 2px 0}'
   + '</style>'
   + '<input name="passphrase" type="password" placeholder="Enter your password" />'
-  + '<button type="button" name="preview" title="Show encrypted password">&ofcir;</button>'
-  + '<button type="submit" title="Paste encrypted password to active password field">&rtrif;</button>'
+  + '<button type="button" name="preview" title="Show encrypted password">&odot;</button>'
+  + '<button type="submit" title="Paste encrypted password to active password field">&#9658;</button>'
   + '</form>'
   , self
   , document
