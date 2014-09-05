@@ -1,7 +1,7 @@
 CryptoPass
 ==========
 
-CryptoPass is the tiny bookmark script which allows to create unique strong one-side password for each unique site by using your master password
+CryptoPass is the tiny bookmark script which allows to create unique strong one-side password for each unique site by using your master password ([Try online](https://rawgit.com/w3core/cryptopass/master/mobile.html))
 
 ![Cryptopass widget](https://rawgit.com/w3core/cryptopass/master/src/site/img/controls.png "Cryptopass widget elements")
 
