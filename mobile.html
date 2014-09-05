@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+ <head>
+  <meta name="viewport" content="width=device-width, height=device-height" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta content="application/xhtml+xml; charset=utf-8" http-equiv="content-type" />
+  <title>CryptoPass</title>
+  <style type="text/css">
+   html,body {background:#5e8ee4;margin:0;padding:0;}
+   form:before, [name=close], [type=submit]{display:none!important}
+   h1 {
+    color:#fff;
+    text-align:center;
+    text-shadow:0 -1px 0 rgba(0,0,0,.5);
+    font-family:sans-serif;
+   }
+   form {
+    width:300px!important;
+    margin:0 auto!important;
+    position:relative!important;
+    box-shadow:none!important;
+   }
+   form input, form button {
+    display:block!important;
+    width:100%!important;
+    margin:10px 0 0!important;
+    border-radius:3px!important;
+   }
+  </style>
+ </head>
+ <body>
+ <h1>CryptoPass</h1>
+ <script type="text/javascript" src="http://rawgit.com/w3core/cryptopass/master/src/script.js"></script>
+ <script type="text/javascript">
+ var original = document.querySelector('[name=close]');
+ var url = document.createElement('input');
+ url.placeholder = 'Enter site url';
+ url.type = 'text';
+ url.name = 'url';
+ url.value = '';
+ original.parentNode.insertBefore(url,original);
+ </script>
+</body>
+</html>
