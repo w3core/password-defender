@@ -33,13 +33,25 @@
  <h1>CryptoPass</h1>
  <script type="text/javascript" src="https://rawgit.com/w3core/cryptopass/master/src/script.js"></script>
  <script type="text/javascript">
- var original = document.querySelector('[name=close]');
- var url = document.createElement('input');
- url.placeholder = 'Enter site url';
- url.type = 'text';
- url.name = 'url';
- url.value = '';
- original.parentNode.insertBefore(url,original);
+ (new function(){
+  var original = document.querySelector('[name=close]');
+  var url = document.createElement('input');
+  url.placeholder = 'Enter site url';
+  url.type = 'text';
+  url.name = 'url';
+  url.value = '';
+  original.parentNode.insertBefore(url,original);
+
+  url.focus();
+
+  document.addEventListener('keydown', function (e) {
+   if (e.keyCode == 27) {
+    url.value = '';
+    $_cryptopass_$.show();
+    url.focus();
+   }
+  }, false);
+ }());
  </script>
 </body>
 </html>
