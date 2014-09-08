@@ -8,7 +8,7 @@
   <title>CryptoPass Mobile</title>
   <style type="text/css">
    html,body {background:#5e8ee4;margin:0;padding:0;}
-   h1, button, .footer {-webkit-user-select:none; user-select:none;}
+   h1, button, .footer, .standalone {-webkit-user-select:none; user-select:none;}
    form:before, [name=close], [type=submit]{display:none!important}
    h1, .footer {
     color:#fff;
@@ -42,6 +42,70 @@
     font-size:11px;
    }
    .footer a {text-decoration:none; color:#fff;}
+
+   .standalone {display:none;}
+
+   .ios {min-height:300px;}
+   .ios .standalone {
+    z-index:65535;
+    display:block;
+    width:180px;
+    position:fixed;
+    bottom:0;
+    left:50%;
+    margin:0 0 10px -91px;
+    padding:10px 0;
+    text-align:center;
+    font:normal normal 11px sans-serif;
+    color:#fff;
+    text-shadow:0 -1px 0 rgba(0,0,0,.5);
+    box-shadow: 0px 1px 10px rgba(0,0,0,.5);
+    border:1px solid #fff;
+    border-radius:3px;
+    background:-moz-linear-gradient(top,#5e8ee4 0,#4173c9 100%);
+    background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5e8ee4),color-stop(100%,#4173c9));
+    background:-webkit-linear-gradient(top,#5e8ee4 0,#4173c9 100%);
+    background:-o-linear-gradient(top,#5e8ee4 0,#4173c9 100%);
+    background:-ms-linear-gradient(top,#5e8ee4 0,#4173c9 100%);
+    background:linear-gradient(to bottom,#5e8ee4 0,#4173c9 100%);
+    -webkit-animation:jump .5s infinite ease alternate;
+   }
+   .ios .standalone:after {
+    content:"";
+    display:block;
+    width:10px;
+    height:10px;
+    position:absolute;
+    left:50%;
+    background:#4173c9;
+    bottom:-6px;
+    border:1px solid #fff;
+    -webkit-transform:rotate(45deg);
+    margin:0 0 0 -5px;
+    border-width:0 1px 1px 0;
+    border-radius:100% 0 0 0;
+   }
+   @-webkit-keyframes jump {
+    from {-webkit-transform:translate3d(0,3px,0);}
+    to {-webkit-transform:translate3d(0,-10px,0);}
+   }
+
+   .ios.tablet .standalone {
+    top:0;
+    left:145px;
+    height:42px;
+    -webkit-animation:jump-tab .5s infinite ease alternate;
+   }
+   .ios.tablet .standalone:after {
+    top:-6px;
+    background:#5e8ee4!important;
+    border-width:1px 0 0 1px!important;
+    border-radius:0 0 100% 0!important;
+   }
+   @-webkit-keyframes jump-tab {
+    from {-webkit-transform:translate3d(0,7px,0);}
+    to {-webkit-transform:translate3d(0,17px,0);}
+   }
   </style>
  </head>
  <body>
@@ -51,7 +115,7 @@
  (new function(){
   var original = document.querySelector('[name=close]');
   var url = document.createElement('input');
-  url.placeholder = 'Enter site url';
+  url.placeholder = 'Enter site URL';
   url.type = 'text';
   url.name = 'url';
   url.value = '';
@@ -73,10 +137,16 @@
     btn.blur();
    }, false);   
   }
+
+  if (!navigator.standalone) {
+   if (navigator.userAgent.match(/i(pod|phone);/i)) document.body.className = 'ios';
+   else if (navigator.userAgent.match(/ipad;/i)) document.body.className = 'ios tablet';
+  }
  }());
  </script>
  <div class="footer">
   <a href="https://github.com/w3core/cryptopass/" target="_blank">How to install the widget on your desktop?</a>
  </div>
+ <div class="standalone">Please, add this application<br />to "<b>Home Screen</b>" to use as<br />standalone secured application!</div>
 </body>
 </html>
