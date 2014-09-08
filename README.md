@@ -1,16 +1,19 @@
 CryptoPass
 ==========
 
- [CryptoPass](https://w3core.github.io/ "CryptoPass mobile version") is the tiny bookmark script which allows to create unique strong one-side password for each unique site by using your master password
+[CryptoPass](https://w3core.github.io/ "CryptoPass mobile version") is the tiny
+bookmark script which allows to create unique strong one-side password for each
+unique site by using your master password
 
 ![Cryptopass widget](https://rawgit.com/w3core/cryptopass/master/src/site/img/controls.png "Cryptopass widget elements")
 
 Features
 --------
 + A unique one-way password for each site by using your single master password
-+ The generated password is extra strong and long independently by length of master password
++ The generated password is extra strong and long independently by length of
+  master password
 + Does not require any registration, storage and any extentions
-+ Cross browser support
++ Cross browser support (Note: The mobile version can be found [here](https://w3core.github.io/ "CryptoPass mobile version"))
 + Offline mode support
 + Extra simple for usage
 
@@ -26,7 +29,7 @@ Installation
 
 Usage
 -----
-1. Open "sign-in" or "sign-up" page of any site
+1. Open the site on which you want to "sign-in" or "sign-up"
 2. Tap to the "Password" bookmark
    ![Usage](https://rawgit.com/w3core/cryptopass/master/src/site/img/usage-step-0.png)
 3. You can see the "Password" widget in left-top side of page
@@ -40,6 +43,25 @@ Usage
 
 Also you can see or copy your encrypted password if you need
 ![Usage](https://rawgit.com/w3core/cryptopass/master/src/site/img/usage-view-password.png)
+
+How to use it on mobile gadget?
+-------------------------------
+Unfortunately, at now mobile gadgets does not provides full functionality of bookmarks. 
+So for mobile gadgets, you can use the following solution.
+
+1. Open the site on which you want to "sign-in" or "sign-up" and copy the URL to the clipboard
+   ![Usage on mobile](https://rawgit.com/w3core/cryptopass/master/src/site/img/m/mobile-step-0.png)
+2. Open the ["CryptoPass for Mobile"](https://w3core.github.io/ "CryptoPass mobile version") website
+   ![Usage on mobile](https://rawgit.com/w3core/cryptopass/master/src/site/img/m/mobile-step-1.png)
+3. Paste the copied to clipboard site URL to the "Enter site URL" field
+   ![Usage on mobile](https://rawgit.com/w3core/cryptopass/master/src/site/img/m/mobile-step-2.png)
+4. Enter your master password to the password field and tap to the below button
+   ![Usage on mobile](https://rawgit.com/w3core/cryptopass/master/src/site/img/m/mobile-step-3.png)
+5. Select the content of generated password from the opened popup and then copy to the clipboard
+   ![Usage on mobile](https://rawgit.com/w3core/cryptopass/master/src/site/img/m/mobile-step-4.png)
+6. Return back to the website, paste the generated password to the password 
+   field (3) and then tap to submit button (4)
+   ![Usage on mobile](https://rawgit.com/w3core/cryptopass/master/src/site/img/m/mobile-step-5.png)
 
 Building (optional)
 -------------------
