@@ -62,11 +62,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-(!new function(HTML,self,document,location,unescape,encodeURIComponent){
+(!new function(HTML,self,document,location,unescape,encodeURIComponent,userAgent){
 
  if(self.$_cryptopass_$!=null) return self.$_cryptopass_$.show();
 
- var that=this,HERE,PASSPHRASE;
+ var that=this,HERE,PASSPHRASE,MSG;
 
  function __construct () {
   initEscapeHandler();
@@ -80,14 +80,23 @@
     HERE.value = make(o.name,o.pwd);
    },100);
   }, false);
+  initMasterPasswordFieldHandler();
   show();
  }
 
  function DOM () {
   var s = self.$_cryptopass_$;
   if (s == null) {
-   s = HTML2DOM(HTML.replace(/ROOT/g, '_'+(Math.random().toString().substr(2) + (new Date).getTime())))[0];
+   var _ = {'opera':'-o-','firefox':'-moz-','webkit':'-webkit-'};
+   var ua = userAgent.match(/opera|firefox|webkit/);
+   var pfx = ua && ua[0] && _[ua[0]]?_[ua[0]]:'';
+   var html = HTML
+    .replace(/-R-/g, '_'+(Math.random().toString().substr(2) + (new Date).getTime()))
+    .replace(/-P-/g, pfx)
+    ;
+   s = HTML2DOM(html)[0];
    PASSPHRASE = s.querySelector('[name=passphrase]');
+   MSG =  s.querySelector('.msg');
    s.show = show;
    var close = s.querySelector('[name=close]');
    if (close) close.addEventListener('click', hide, false);
@@ -114,6 +123,12 @@
   }
  }
 
+ function message (html) {
+  if (!MSG) return;
+  MSG.innerHTML = html?String(html):'';
+  MSG.style.display = html?'block':'none';
+ }
+
  function opts () {
   var o = {};
   var url = DOM().querySelector('[name=url]');
@@ -134,6 +149,13 @@
   }
   o.pwd = pwd.value;
   return o;
+ }
+
+ function initMasterPasswordFieldHandler () {
+  PASSPHRASE.addEventListener('keyup',function(){
+   if (PASSPHRASE.value.match(/[^\x00-\x7F]+/)) message('Regional characters detected in your master password.<br>Be sure that you are using correct keyboard layout.');
+   else message();
+  },false);
  }
 
  function initPasswordFieldHandler () {
@@ -196,7 +218,7 @@
 
  function parseDomain (url) {
   var url = arguments.length ? String(url) : location.href;
-  if (navigator.userAgent.toLowerCase().match(/(opera|chrome)/g) && url.match(/^[0-9.]+$/)) return url; // Blink engine bugfix
+  if (userAgent.match(/(opera|chrome)/g) && url.match(/^[0-9.]+$/)) return url; // Blink engine bugfix
   url = url.match(/^[htfps]{3,5}\:\/\//i) ? url : (location.protocol + '//' + url);
   var a = document.createElement('a');
   a.href = url;
@@ -229,19 +251,23 @@ this.low):32>b?new a(this.high>>>b,this.low>>>b|this.high<<32-b):32==b?new a(0,t
 65535)+(f>>>16);return new a((this.high>>>16)+(b.high>>>16)+(e>>>16)<<16|e&65535,f<<16|h&65535)};a.prototype.toHexString=function(){return I(this.high)+I(this.low)};"undefined"!=typeof module?(k.sha512=k,k.sha384=F,k.sha512_256=G,k.sha512_224=H,module.exports=k):m&&(m.sha512=k,m.sha384=F,m.sha512_256=G,m.sha512_224=H)})(this);
 
 }(
-    '<form id="ROOT" action="javascript:void(0)">'
+    '<form id="-R-" action="javascript:void(0)">'
   + '<button type="button" name="close" title="Close [ESC]">&times;</button>'
   + '<style type="text/css">'
-  + '#ROOT :focus{outline:none}#ROOT ::-moz-focus-inner{border:0}'
-  + '#ROOT{z-index:65535;display:block;position:fixed;top:0;left:0;margin:0;padding:0;border-radius:0 0 3px 0;box-shadow:0 0 100px #fff,0 0 100px #fff;width:auto;height:auto;white-space:nowrap;font-size:0;line-height:0}'
-  + '#ROOT *{position:relative;height:32px;min-height:initial;border-radius:0;vertical-align:middle;box-sizing:border-box;box-shadow:none;margin:0 0 0 -1px;text-decoration:none;text-transform:none;border:1px solid #4173c9;padding:0;color:#fff}'
-  + '#ROOT:before {content:"";display:block;position:absolute;width:100%;height:100%;box-shadow:0 0 2px #000;border-radius:0 0 3px 0}'
-  + '#ROOT input{z-index:1;display:inline-block;width:160px;background:#f3f3f3;text-shadow:1px 1px 0 #fff;font:normal normal 13px arial,sans-serif;line-height:30px;text-align:center;color:#333}'
-  + '#ROOT button{z-index:2;cursor:pointer;display:inline-block;font:normal bold 16px arial,sans-serif;text-shadow:0 -1px 0 rgba(0,0,0,.5);width:32px;line-height:28px;background:-moz-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5e8ee4),color-stop(100%,#4173c9));background:-webkit-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-o-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-ms-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:linear-gradient(to bottom,#5e8ee4 0,#4173c9 100%)}'
-  + '#ROOT button:hover{border-color:#396bbc;background:-moz-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5587d7),color-stop(100%,#396bbc));background:-webkit-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-o-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-ms-linear-gradient(top,#5587d7 0,#396bbc 100%);background:linear-gradient(to bottom,#5587d7 0,#396bbc 100%)}'
-  + '#ROOT button:active{box-shadow:inset 0 2px 4px rgba(0,0,0,.24)}#ROOT :last-child{border-radius:0 0 2px 0}'
+  + '#-R- :focus{outline:none}#-R- ::-moz-focus-inner{border:0}'
+  + '#-R-{z-index:65535;display:block;position:fixed;top:0;left:0;margin:0;padding:0;border-radius:0 0 3px 0;box-shadow:0 0 100px #fff,0 0 100px #fff;width:auto;height:auto;white-space:nowrap;font-size:0;line-height:0}'
+  + '#-R- *{position:relative;height:32px;min-height:initial;border-radius:0;vertical-align:middle;box-sizing:border-box;box-shadow:none;margin:0 0 0 -1px;text-decoration:none;text-transform:none;border:1px solid #4173c9;padding:0;color:#fff}'
+  + '#-R-:before {content:"";display:block;position:absolute;width:100%;height:100%;box-shadow:0 0 2px #000;border-radius:0 0 3px 0}'
+  + '#-R- input{z-index:1;display:inline-block;width:160px;background:#f3f3f3;text-shadow:1px 1px 0 #fff;font:normal normal 13px arial,sans-serif;line-height:30px;text-align:center;color:#333}'
+  + '#-R- button{z-index:2;cursor:pointer;display:inline-block;font:normal bold 16px arial,sans-serif;width:32px;line-height:28px;text-shadow:0 -1px 0 rgba(0,0,0,.5);background:-moz-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5e8ee4),color-stop(100%,#4173c9));background:-webkit-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-o-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-ms-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:linear-gradient(to bottom,#5e8ee4 0,#4173c9 100%)}'
+  + '#-R- button:hover,#-R- .msg{border-color:#396bbc;background:-moz-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5587d7),color-stop(100%,#396bbc));background:-webkit-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-o-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-ms-linear-gradient(top,#5587d7 0,#396bbc 100%);background:linear-gradient(to bottom,#5587d7 0,#396bbc 100%)}'
+  + '#-R- button:active{box-shadow:inset 0 2px 4px rgba(0,0,0,.24)}#-R- :last-child{border-radius:0 0 2px 0}'
+  + '#-R- .msg{display:none;position:absolute;font:normal normal 11px arial;white-space:normal;top:100%;left:30px;padding:2px 4px;height:auto;width:160px;border-radius:3px;margin:6px 0 0;text-align:justify;box-shadow:0 0 2px #000;text-shadow:0 -1px 0 rgba(0,0,0,.3);-P-animation:-R- .5s infinite ease alternate}'
+  + '#-R- .msg:before{content:"";position:absolute;left:50%;top:-6px;margin:0 0 0 -5px;display:block;width:0;height:0;border-style:solid;border-width:0 5px 6px 5px;border-color:transparent transparent #5587d7 transparent}'
+  + '@-P-keyframes -R-{from{-P-transform:translateY(0)}to{-P-transform:translateY(10px)}}'
   + '</style>'
   + '<input name="passphrase" type="password" placeholder="Enter your password" />'
+  + '<i class="msg"></i>'
   + '<button type="button" name="preview" title="Show encrypted password">&odot;</button>'
   + '<button type="submit" title="Paste encrypted password to active password field">&#9658;</button>'
   + '</form>'
@@ -250,4 +276,5 @@ this.low):32>b?new a(this.high>>>b,this.low>>>b|this.high<<32-b):32==b?new a(0,t
   , location
   , unescape
   , encodeURIComponent
+  , navigator.userAgent.toLowerCase()
 ));
