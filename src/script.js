@@ -62,11 +62,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-(!new function(HTML,self,document,location,unescape,encodeURIComponent,userAgent){
+(!new function(HTML,self,document,location,unescape,encodeURIComponent,userAgent,String,alert,setTimeout){
 
  if(self.$_cryptopass_$!=null) return self.$_cryptopass_$.show();
 
- var that=this,HERE,PASSPHRASE,MSG;
+ var that=this,click='click',HERE,PASSPHRASE,MSG;
 
  function __construct () {
   initEscapeHandler();
@@ -99,9 +99,9 @@
    MSG =  s.querySelector('.msg');
    s.show = show;
    var close = s.querySelector('[name=close]');
-   if (close) close.addEventListener('click', hide, false);
+   if (close) close.addEventListener(click, hide, false);
    var preview = s.querySelector('[name=preview]');
-   if (preview) preview.addEventListener('click', function(){
+   if (preview) preview.addEventListener(click, function(){
     var o = opts();
     if (!o) return false;
     prompt('Your password is:', make(o.name,o.pwd));
@@ -141,25 +141,26 @@
    }
    o.name = parseSubDomain(url.value);
   }
-  var pwd = DOM().querySelector('[name=passphrase]');
-  if (pwd == null || !pwd.value || !pwd.value.length) {
+  if (!PASSPHRASE || !PASSPHRASE.value || !PASSPHRASE.value.length) {
    alert ('Please, enter your password');
-   if (pwd != null) pwd.focus();
+   if (PASSPHRASE) PASSPHRASE.focus();
    return !1;
   }
-  o.pwd = pwd.value;
+  o.pwd = PASSPHRASE.value;
   return o;
  }
 
  function initMasterPasswordFieldHandler () {
   PASSPHRASE.addEventListener('keyup',function(){
-   if (PASSPHRASE.value.match(/[^\x00-\x7F]+/)) message('Regional characters detected in your master password.<br>Be sure that you are using correct keyboard layout.');
-   else message();
+   setTimeout(function(){
+    if (PASSPHRASE.value.match(/[^\x00-\x7F]/)) message('Regional characters detected in your master password.<br>Be sure that you are using correct keyboard layout.');
+    else message();    
+   },20);
   },false);
  }
 
  function initPasswordFieldHandler () {
-  document.body.addEventListener('click', function(){
+  document.body.addEventListener(click, function(){
    if (
      document.activeElement
      && document.activeElement.type
@@ -189,7 +190,7 @@
  function passFromHash (hash,passLength) {
   // hash.lenght must be >= passLength * HEX2CHAR
   var HEX2CHAR = 3;
-  var CHARS = 'abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!$@_-~';
+  var CHARS = 'abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!$@_-~ ';
   var result = '';
   for (var i = 0; i<passLength; i++) {
    var partText = hash.substring(i*HEX2CHAR,(i+1)*HEX2CHAR);
@@ -203,7 +204,7 @@
 
  function parseSubDomain (url) {
   var domain = parseDomain(arguments.length ? String(url) : location.href);
-  if (domain.match(/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/)) return domain;
+  if (domain.match(/^(\d{1,3}\.){3}\d{1,3}$/)) return domain;
   var mobile = 'pda,m,mob,mobile,tablet,tab'.split(',');
   var parts = domain.split('.');
   var name = parts[0];
@@ -255,14 +256,14 @@ this.low):32>b?new a(this.high>>>b,this.low>>>b|this.high<<32-b):32==b?new a(0,t
   + '<button type="button" name="close" title="Close [ESC]">&times;</button>'
   + '<style type="text/css">'
   + '#-R- :focus{outline:none}#-R- ::-moz-focus-inner{border:0}'
-  + '#-R-{z-index:65535;display:block;position:fixed;top:0;left:0;margin:0;padding:0;border-radius:0 0 3px 0;box-shadow:0 0 100px #fff,0 0 100px #fff;width:auto;height:auto;white-space:nowrap;font-size:0;line-height:0}'
+  + '#-R-{z-index:999999;display:block;position:fixed;top:0;left:0;margin:0;padding:0;border-radius:0 0 3px 0;box-shadow:0 0 250px 100px #fff;width:auto;height:auto;white-space:nowrap;font-size:0;line-height:0}'
   + '#-R- *{position:relative;height:32px;min-height:initial;border-radius:0;vertical-align:middle;box-sizing:border-box;box-shadow:none;margin:0 0 0 -1px;text-decoration:none;text-transform:none;border:1px solid #4173c9;padding:0;color:#fff}'
-  + '#-R-:before {content:"";display:block;position:absolute;width:100%;height:100%;box-shadow:0 0 2px #000;border-radius:0 0 3px 0}'
+  + '#-R-:before {content:"";display:block;position:absolute;width:100%;height:100%;box-shadow:0 1px 2px rgba(0,0,0,.5);border-radius:0 0 3px 0}'
   + '#-R- input{z-index:1;display:inline-block;width:160px;background:#f3f3f3;text-shadow:1px 1px 0 #fff;font:normal normal 13px arial,sans-serif;line-height:30px;text-align:center;color:#333}'
   + '#-R- button{z-index:2;cursor:pointer;display:inline-block;font:normal bold 16px arial,sans-serif;width:32px;line-height:28px;text-shadow:0 -1px 0 rgba(0,0,0,.5);background:-moz-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5e8ee4),color-stop(100%,#4173c9));background:-webkit-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-o-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-ms-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:linear-gradient(to bottom,#5e8ee4 0,#4173c9 100%)}'
   + '#-R- button:hover,#-R- .msg{border-color:#396bbc;background:-moz-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5587d7),color-stop(100%,#396bbc));background:-webkit-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-o-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-ms-linear-gradient(top,#5587d7 0,#396bbc 100%);background:linear-gradient(to bottom,#5587d7 0,#396bbc 100%)}'
   + '#-R- button:active{box-shadow:inset 0 2px 4px rgba(0,0,0,.24)}#-R- :last-child{border-radius:0 0 2px 0}'
-  + '#-R- .msg{display:none;position:absolute;font:normal normal 11px arial;white-space:normal;top:100%;left:30px;padding:2px 4px;height:auto;width:160px;border-radius:3px;margin:6px 0 0;text-align:justify;box-shadow:0 0 2px #000;text-shadow:0 -1px 0 rgba(0,0,0,.3);-P-animation:-R- .5s infinite ease alternate}'
+  + '#-R- .msg{display:none;position:absolute;font:normal normal 11px arial;white-space:normal;top:100%;left:30px;padding:2px 4px;height:auto;width:160px;border-radius:3px;margin:6px 0 0;text-align:center;box-shadow:0 1px 2px rgba(0,0,0,.5);text-shadow:0 -1px 0 rgba(0,0,0,.3);-P-animation:-R- .5s infinite ease alternate}'
   + '#-R- .msg:before{content:"";position:absolute;left:50%;top:-6px;margin:0 0 0 -5px;display:block;width:0;height:0;border-style:solid;border-width:0 5px 6px 5px;border-color:transparent transparent #5587d7 transparent}'
   + '@-P-keyframes -R-{from{-P-transform:translateY(0)}to{-P-transform:translateY(10px)}}'
   + '</style>'
@@ -277,4 +278,7 @@ this.low):32>b?new a(this.high>>>b,this.low>>>b|this.high<<32-b):32==b?new a(0,t
   , unescape
   , encodeURIComponent
   , navigator.userAgent.toLowerCase()
+  , String
+  , alert
+  , setTimeout
 ));
