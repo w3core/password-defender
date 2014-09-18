@@ -37,7 +37,7 @@
  * 3. Wrap minified and encoded script "javascript:void(SOURCE)"
  * 4. Save as "bookmark.js"
  * 
- * @version 2014.09.05 17:37
+ * @version 2014.09.18
  * 
  * @url http://w3core.github.io/cryptopass
  * @license BSD License
@@ -66,20 +66,22 @@
 
  if(self.$_cryptopass_$!=null) return self.$_cryptopass_$.show();
 
- var that=this,click='click',HERE,PASSPHRASE,MSG;
+ var that=this,click='click',CLOSE,NAME,PASSPHRASE,VIEW,HERE,MSG;
 
  function __construct () {
   initEscapeHandler();
   initPasswordFieldHandler();
-  DOM().addEventListener('submit', function(e){
+  handle('submit', DOM(), function(e){
    var o = opts();
    if (!o) return false;
-   if (!HERE) return alert('Please, set focus to password field where the password should to be pasted and then press "PASTE" button.');
+   if (isStandalone()) return VIEW.click();
+   if (!HERE) return alert('Please, set focus to password field where the password should to be pasted and then press "PASTE" button');
    HERE.focus();
    setTimeout(function(){
     HERE.value = make(o.name,o.pwd);
    },100);
-  }, false);
+  });
+  initNameFieldHandler();
   initMasterPasswordFieldHandler();
   show();
  }
@@ -95,17 +97,18 @@
     .replace(/-P-/g, pfx)
     ;
    s = HTML2DOM(html)[0];
-   PASSPHRASE = s.querySelector('[name=passphrase]');
+   NAME = s.querySelector('.nm');
+   PASSPHRASE = s.querySelector('.pwd');
    MSG =  s.querySelector('.msg');
    s.show = show;
-   var close = s.querySelector('[name=close]');
-   if (close) close.addEventListener(click, hide, false);
-   var preview = s.querySelector('[name=preview]');
-   if (preview) preview.addEventListener(click, function(){
+   CLOSE = s.querySelector('.cls');
+   if (CLOSE) handle(click, CLOSE, hide);
+   VIEW = s.querySelector('.view');
+   if (VIEW) handle(click, VIEW, function(){
     var o = opts();
     if (!o) return false;
     prompt('Your password is:', make(o.name,o.pwd));
-   }, false);
+   });
    self.$_cryptopass_$ = s;
   }
   return s;
@@ -131,16 +134,12 @@
 
  function opts () {
   var o = {};
-  var url = DOM().querySelector('[name=url]');
-  if (url == null) o.name = parseSubDomain();
-  else {
-   if (!url.value || !url.value.length) {
-    alert ('Please, enter site URL');
-    url.focus();
-    return !1;
-   }
-   o.name = parseSubDomain(url.value);
+  if (!NAME.value || !NAME.value.length) {
+   alert ('Please, enter site name or URL');
+   if (NAME) NAME.focus();
+   return !1;
   }
+  o.name = parseSubDomain(NAME.value);
   if (!PASSPHRASE || !PASSPHRASE.value || !PASSPHRASE.value.length) {
    alert ('Please, enter your password');
    if (PASSPHRASE) PASSPHRASE.focus();
@@ -150,30 +149,39 @@
   return o;
  }
 
+ function isStandalone () { return (DOM() && DOM().standalone); }
+
+ function initNameFieldHandler () {
+  function update () {NAME.value = !!NAME.value.length?parseSubDomain(NAME.value):(!isStandalone()?parseSubDomain():NAME.value)}
+  handle('blur', NAME, update);
+  update();
+  resizable(NAME);
+ }
+
  function initMasterPasswordFieldHandler () {
-  PASSPHRASE.addEventListener('keyup',function(){
+  handle('keyup', PASSPHRASE, function(){
    setTimeout(function(){
     if (PASSPHRASE.value.match(/[^\x00-\x7F]/)) message('Regional characters detected in your master password.<br>Be sure that you are using correct keyboard layout.');
     else message();    
    },20);
-  },false);
+  });
  }
 
  function initPasswordFieldHandler () {
-  document.body.addEventListener(click, function(){
+  handle(click, document.body, function(){
    if (
      document.activeElement
      && document.activeElement.type
      && document.activeElement.type.toLowerCase() == 'password'
      && document.activeElement != PASSPHRASE
    ) HERE = document.activeElement;
-  }, false);
+  });
  }
 
  function initEscapeHandler () {
-  document.addEventListener('keydown', function (e) {
+  handle('keydown', document, function(e){
    if (e.keyCode == 27) hide();
-  }, false);
+  });
  }
 
  function make (name, passphrase) {
@@ -195,26 +203,24 @@
   for (var i = 0; i<passLength; i++) {
    var partText = hash.substring(i*HEX2CHAR,(i+1)*HEX2CHAR);
    var partVal  = parseInt(partText,16);
-   if (isNaN(partVal)) { throw('Too short hash string'); }
-   if (partVal < 0) { throw('Invalid hash string'); }
+   if (isNaN(partVal)) { throw('code:1'); } // Too short hash string
+   if (partVal < 0) { throw('code:2'); } // Invalid hash string
    result += '' + CHARS.charAt(partVal % CHARS.length);
   }
   return result;
  }
 
  function parseSubDomain (url) {
-  var domain = parseDomain(arguments.length ? String(url) : location.href);
-  if (domain.match(/^(\d{1,3}\.){3}\d{1,3}$/)) return domain;
-  var mobile = 'pda,m,mob,mobile,tablet,tab'.split(',');
-  var parts = domain.split('.');
-  var name = parts[0];
-  if (parts.length > 2) {
-   for (var i=0;i<mobile.length;i++) {
-    if (mobile[i] != name) continue;
-    name = parts[1]; break;
-   }
-  }
-  return name;
+  var v = decodeURIComponent(parseDomain(arguments.length ? String(url) : location.href));
+  if (v.match(/^(\d{1,3}\.){3}\d{1,3}$/)) return v;
+  var prefix = 'pda.m.mob.mobile.tablet.tab.account.accounts.auth.login.my.mail.new';
+  var suffix = 'aero.asia.biz.cat.com.coop.edu.gov.info.int.jobs.mil.mobi.name.net.org.pro.tel.xxx.today.ac.ad.ae.af.ag.ai.al.am.an.ao.aq.ar.as.at.au.aw.ax.az.ba.bb.bd.be.bf.bg.bh.bi.bj.bm.bn.bo.br.bs.bt.bv.bw.by.bz.ca.cc.cd.cf.cg.ch.ci.ck.cl.cm.cn.co.cr.cs.cu.cv.cw.cx.cy.cz.dd.de.dj.dk.dm.do.dz.ec.ee.eg.eh.er.es.et.eu.fi.fj.fk.fm.fo.fr.ga.gb.gd.ge.gf.gg.gh.gi.gl.gm.gn.gp.gq.gr.gs.gt.gu.gw.gy.hk.hm.hn.hr.ht.hu.id.ie.il.im.in.io.iq.ir.is.it.je.jm.jo.jp.ke.kg.kh.ki.km.kn.kp.kr.kw.ky.kz.la.lb.lc.li.lk.lr.ls.lt.lu.lv.ly.ma.mc.md.me.mg.mh.mk.ml.mm.mn.mo.mp.mq.mr.ms.mt.mu.mv.mw.mx.my.mz.na.nc.ne.nf.ng.ni.nl.no.np.nr.nu.nz.om.pa.pe.pf.pg.ph.pk.pl.pm.pn.pr.ps.pt.pw.py.qa.re.ro.rs.ru.rw.sa.sb.sc.sd.se.sg.sh.si.sj.sk.sl.sm.sn.so.sr.ss.st.su.sv.sx.sy.sz.tc.td.tf.tg.th.tj.tk.tl.tm.tn.to.tp.tr.tt.tv.tw.tz.ua.ug.uk.us.uy.uz.va.vc.ve.vg.vi.vn.vu.wf.ws.ye.yt.yu.za.zm.zw';
+  prefix = new RegExp('^('+prefix.split('.').join('|')+')\\.');
+  suffix = new RegExp('\\.('+suffix.split('.').join('|')+')$');
+  v = v.replace(suffix,'').replace(suffix,'');
+  if (v.split('.').length > 1) v = v.replace(prefix,'');
+  v = v.split('.');
+  return v[v.length-1];
  }
 
  function parseDomain (url) {
@@ -235,9 +241,19 @@
   return r;
  }
 
+ function resizable (el, factor) {
+  var int = Number(factor) || 7;
+  function resize() {el.style.width = ((el.value.length+1) * int) + 'px'}
+  var e = 'keyup.keypress.focus.blur.change'.split('.');
+  for (var i in e) handle(e[i], el, resize);
+  resize();
+ }
+
+ function handle (event, node, fn, capture) {node.addEventListener(event, fn, !!capture)}
+
  __construct();
 
-(function(m,K){var a=function(a,h){this.high=a|0;this.low=h|0},z="0123456789abcdef".split(""),E={0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,a:10,b:11,c:12,d:13,e:14,f:15,A:10,B:11,C:12,D:13,E:14,F:15},J=[new a(1116352408,3609767458),new a(1899447441,602891725),new a(3049323471,3964484399),new a(3921009573,2173295548),new a(961987163,4081628472),new a(1508970993,3053834265),new a(2453635748,2937671579),new a(2870763221,3664609560),new a(3624381080,2734883394),new a(310598401,1164996542),new a(607225278,
+(function(m,K){var a=function(a,h){this.high=a|0;this.low=h|0},z='0123456789abcdef'.split(''),E={0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,a:10,b:11,c:12,d:13,e:14,f:15,A:10,B:11,C:12,D:13,E:14,F:15},J=[new a(1116352408,3609767458),new a(1899447441,602891725),new a(3049323471,3964484399),new a(3921009573,2173295548),new a(961987163,4081628472),new a(1508970993,3053834265),new a(2453635748,2937671579),new a(2870763221,3664609560),new a(3624381080,2734883394),new a(310598401,1164996542),new a(607225278,
 1323610764),new a(1426881987,3590304994),new a(1925078388,4068182383),new a(2162078206,991336113),new a(2614888103,633803317),new a(3248222580,3479774868),new a(3835390401,2666613458),new a(4022224774,944711139),new a(264347078,2341262773),new a(604807628,2007800933),new a(770255983,1495990901),new a(1249150122,1856431235),new a(1555081692,3175218132),new a(1996064986,2198950837),new a(2554220882,3999719339),new a(2821834349,766784016),new a(2952996808,2566594879),new a(3210313671,3203337956),new a(3336571891,
 1034457026),new a(3584528711,2466948901),new a(113926993,3758326383),new a(338241895,168717936),new a(666307205,1188179964),new a(773529912,1546045734),new a(1294757372,1522805485),new a(1396182291,2643833823),new a(1695183700,2343527390),new a(1986661051,1014477480),new a(2177026350,1206759142),new a(2456956037,344077627),new a(2730485921,1290863460),new a(2820302411,3158454273),new a(3259730800,3505952657),new a(3345764771,106217008),new a(3516065817,3606008344),new a(3600352804,1432725776),new a(4094571909,
 1467031594),new a(275423344,851169720),new a(430227734,3100823752),new a(506948616,1363258195),new a(659060556,3750685593),new a(883997877,3785050280),new a(958139571,3318307427),new a(1322822218,3812723403),new a(1537002063,2003034995),new a(1747873779,3602036899),new a(1955562222,1575990012),new a(2024104815,1125592928),new a(2227730452,2716904306),new a(2361852424,442776044),new a(2428436474,593698344),new a(2756734187,3733110249),new a(3204031479,2999351573),new a(3329325298,3815920427),new a(3391569614,
@@ -247,29 +263,33 @@ function(a){return q(a,256)},H=function(a){return q(a,224)},q=function(b,h){var 
 914150663),s=new a(2438529370,812702999),t=new a(355462360,4144912697),u=new a(1731405415,4290775857),v=new a(2394180231,1750603025),w=new a(3675008525,1694076839),x=new a(1203062813,3204075428)):256==h?(l=new a(573645204,4230739756),k=new a(2673172387,3360449730),s=new a(596883563,1867755857),t=new a(2520282905,1497426621),u=new a(2519219938,2827943907),v=new a(3193839141,1401305490),w=new a(721525244,746961066),x=new a(246885852,2177182882)):224==h&&(l=new a(2352822216,424955298),k=new a(1944164710,
 2312950998),s=new a(502970286,855612546),t=new a(1738396948,1479516111),u=new a(258812777,2077511080),v=new a(2011393907,79989058),w=new a(1067287976,1780299464),x=new a(286451373,2446758561));d=0;for(c=f.length;d<c;d+=16){for(var e=[],y,p,g=0;16>g;++g)e[g]=f[d+g];for(g=16;80>g;++g)y=e[g-15].rightRotate(1).xor(e[g-15].rightRotate(8)).xor(e[g-15].shiftRightUnsigned(7)),p=e[g-2].rightRotate(19).xor(e[g-2].rightRotate(61)).xor(e[g-2].shiftRightUnsigned(6)),e[g]=e[g-16].add(y).add(e[g-7]).add(p);for(var n=
 l,m=k,A=s,q=t,r=u,B=v,C=w,D=x,z,g=0;80>g;++g)y=n.rightRotate(28).xor(n.rightRotate(34)).xor(n.rightRotate(39)),p=n.and(m).xor(n.and(A)).xor(m.and(A)),y=y.add(p),p=r.rightRotate(14).xor(r.rightRotate(18)).xor(r.rightRotate(41)),z=r.and(B).xor(r.not().and(C)),p=D.add(p).add(z).add(J[g]).add(e[g]),D=C,C=B,B=r,r=q.add(p),q=A,A=m,m=n,n=p.add(y);l=l.add(n);k=k.add(m);s=s.add(A);t=t.add(q);u=u.add(r);v=v.add(B);w=w.add(C);x=x.add(D)}l=l.toHexString()+k.toHexString()+s.toHexString()+t.toHexString();if(224==
-h)return l.substr(0,l.length-8);384<=h&&(l+=u.toHexString()+v.toHexString());512==h&&(l+=w.toHexString()+x.toHexString());return l},I=function(a){for(var h="",f=0;4>f;f++)var e=3-f<<3,h=h+(z[a>>e+4&15]+z[a>>e&15]);return h};a.prototype.and=function(b){return new a(this.high&b.high,this.low&b.low)};a.prototype.xor=function(b){return new a(this.high^b.high,this.low^b.low)};a.prototype.not=function(){return new a(~this.high,~this.low)};a.prototype.shiftRightUnsigned=function(b){b&=63;return 0==b?new a(this.high,
+h)return l.substr(0,l.length-8);384<=h&&(l+=u.toHexString()+v.toHexString());512==h&&(l+=w.toHexString()+x.toHexString());return l},I=function(a){for(var h='',f=0;4>f;f++)var e=3-f<<3,h=h+(z[a>>e+4&15]+z[a>>e&15]);return h};a.prototype.and=function(b){return new a(this.high&b.high,this.low&b.low)};a.prototype.xor=function(b){return new a(this.high^b.high,this.low^b.low)};a.prototype.not=function(){return new a(~this.high,~this.low)};a.prototype.shiftRightUnsigned=function(b){b&=63;return 0==b?new a(this.high,
 this.low):32>b?new a(this.high>>>b,this.low>>>b|this.high<<32-b):32==b?new a(0,this.high):new a(0,this.high>>>b-32)};a.prototype.rightRotate=function(b){b&=63;return 0==b?new a(this.high,this.low):32>b?new a(this.high>>>b|this.low<<32-b,this.low>>>b|this.high<<32-b):32==b?new a(this.low,this.high):new a(this.low>>>b-32|this.high<<64-b,this.high>>>b-32|this.low<<64-b)};a.prototype.add=function(b){var h=(this.low&65535)+(b.low&65535),f=(this.low>>>16)+(b.low>>>16)+(h>>>16),e=(this.high&65535)+(b.high&
-65535)+(f>>>16);return new a((this.high>>>16)+(b.high>>>16)+(e>>>16)<<16|e&65535,f<<16|h&65535)};a.prototype.toHexString=function(){return I(this.high)+I(this.low)};"undefined"!=typeof module?(k.sha512=k,k.sha384=F,k.sha512_256=G,k.sha512_224=H,module.exports=k):m&&(m.sha512=k,m.sha384=F,m.sha512_256=G,m.sha512_224=H)})(this);
+65535)+(f>>>16);return new a((this.high>>>16)+(b.high>>>16)+(e>>>16)<<16|e&65535,f<<16|h&65535)};a.prototype.toHexString=function(){return I(this.high)+I(this.low)};'undefined'!=typeof module?(k.sha512=k,k.sha384=F,k.sha512_256=G,k.sha512_224=H,module.exports=k):m&&(m.sha512=k,m.sha384=F,m.sha512_256=G,m.sha512_224=H)})(this);
 
 }(
     '<form id="-R-" action="javascript:void(0)">'
-  + '<button type="button" name="close" title="Close [ESC]">&times;</button>'
+  + '<button type="button" class="cls" title="Close [ESC]">&times;</button>'
   + '<style type="text/css">'
   + '#-R- :focus{outline:none}#-R- ::-moz-focus-inner{border:0}'
   + '#-R-{z-index:999999;display:block;position:fixed;top:0;left:0;margin:0;padding:0;border-radius:0 0 3px 0;box-shadow:0 0 250px 100px #fff;width:auto;height:auto;white-space:nowrap;font-size:0;line-height:0}'
   + '#-R- *{position:relative;height:32px;min-height:initial;border-radius:0;vertical-align:middle;box-sizing:border-box;box-shadow:none;margin:0 0 0 -1px;text-decoration:none;text-transform:none;border:1px solid #4173c9;padding:0;color:#fff}'
   + '#-R-:before {content:"";display:block;position:absolute;width:100%;height:100%;box-shadow:0 1px 2px rgba(0,0,0,.5);border-radius:0 0 3px 0}'
-  + '#-R- input{z-index:1;display:inline-block;width:160px;background:#f3f3f3;text-shadow:1px 1px 0 #fff;font:normal normal 13px arial,sans-serif;line-height:30px;text-align:center;color:#333}'
-  + '#-R- button{z-index:2;cursor:pointer;display:inline-block;font:normal bold 16px arial,sans-serif;width:32px;line-height:28px;text-shadow:0 -1px 0 rgba(0,0,0,.5);background:-moz-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5e8ee4),color-stop(100%,#4173c9));background:-webkit-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-o-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-ms-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:linear-gradient(to bottom,#5e8ee4 0,#4173c9 100%)}'
-  + '#-R- button:hover,#-R- .msg{border-color:#396bbc;background:-moz-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5587d7),color-stop(100%,#396bbc));background:-webkit-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-o-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-ms-linear-gradient(top,#5587d7 0,#396bbc 100%);background:linear-gradient(to bottom,#5587d7 0,#396bbc 100%)}'
-  + '#-R- button:active{box-shadow:inset 0 2px 4px rgba(0,0,0,.24)}#-R- :last-child{border-radius:0 0 2px 0}'
+  + '#-R- input{z-index:1;display:inline-block;width:160px;background:#f3f3f3;text-shadow:1px 1px 0 #fff;font:normal normal 13px arial,sans-serif;line-height:30px;text-align:center;color:#333;box-shadow:inset 0px 1px 6px rgba(0,0,0,.3)}'
+  + '#-R- button,#-R- label{z-index:2;cursor:pointer;display:inline-block;font:normal bold 16px arial,sans-serif;width:32px;line-height:28px;text-shadow:0 -1px 0 rgba(0,0,0,.5);background:-moz-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5e8ee4),color-stop(100%,#4173c9));background:-webkit-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-o-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-ms-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:linear-gradient(to bottom,#5e8ee4 0,#4173c9 100%)}'
+  + '#-R- button:hover,#-R- label:hover,#-R- .msg{border-color:#396bbc;background:-moz-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5587d7),color-stop(100%,#396bbc));background:-webkit-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-o-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-ms-linear-gradient(top,#5587d7 0,#396bbc 100%);background:linear-gradient(to bottom,#5587d7 0,#396bbc 100%)}'
+  + '#-R- button:active{box-shadow:inset 0 2px 4px rgba(0,0,0,.24)}#-R->:last-child{border-radius:0 0 2px 0}'
   + '#-R- .msg{display:none;position:absolute;font:normal normal 11px arial;white-space:normal;top:100%;left:30px;padding:2px 4px;height:auto;width:160px;border-radius:3px;margin:6px 0 0;text-align:center;box-shadow:0 1px 2px rgba(0,0,0,.5);text-shadow:0 -1px 0 rgba(0,0,0,.3);-P-animation:-R- .5s infinite ease alternate}'
   + '#-R- .msg:before{content:"";position:absolute;left:50%;top:-6px;margin:0 0 0 -5px;display:block;width:0;height:0;border-style:solid;border-width:0 5px 6px 5px;border-color:transparent transparent #5587d7 transparent}'
+  + '#-R- label{width:auto;padding:0 0 0 6px}'
+  + '#-R- .nm{cursor:pointer;background:transparent;border:0;height:30px;margin-left:6px;color:#fff;text-align:left;text-shadow:0 -1px 0 rgba(0,0,0,.5);box-shadow:none;-P-transition:width .3s,min-width .3s}'
+  + '#-R- .nm:focus{cursor:initial;min-width:160px!important;background:#f3f3f3;text-align:center;text-shadow:1px 1px 0 #fff;box-shadow:inset 0px 1px 6px rgba(0,0,0,.3);color:#333}'
   + '@-P-keyframes -R-{from{-P-transform:translateY(0)}to{-P-transform:translateY(10px)}}'
   + '</style>'
-  + '<input name="passphrase" type="password" placeholder="Enter your password" />'
+  + '<input class="pwd" type="password" placeholder="Enter your password" />'
+  + '<label title="Enter site name or URL">@<input class="nm" type="text" placeholder="Enter site name or URL" /></label>'
   + '<i class="msg"></i>'
-  + '<button type="button" name="preview" title="Show encrypted password">&odot;</button>'
+  + '<button type="button" class="view" title="Show encrypted password">&odot;</button>'
   + '<button type="submit" title="Paste encrypted password to active password field">&#9658;</button>'
   + '</form>'
   , self
