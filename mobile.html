@@ -9,18 +9,28 @@
   <style type="text/css">
    html,body {background:#5e8ee4;margin:0;padding:0;}
    h1, button, .footer, .standalone {-webkit-user-select:none; user-select:none;}
-   form:before, [name=close], [type=submit]{display:none!important}
-   h1, .footer {
-    color:#fff;
-    text-align:center;
-    text-shadow:0 -1px 0 rgba(0,0,0,.5);
-    font-family:sans-serif;
-   }
+   form:before, .close, [type=submit]{display:none!important}
+
    form {
     width:300px!important;
-    margin:0 auto!important;
-    position:relative!important;
+    position:absolute!important;
+    top:50%!important;
+    left:50%!important;
+    margin:-130px 0 0 -150px!important;
     box-shadow:none!important;
+   }
+   form:after {
+    content:"";
+    display:block;
+    height:80px;
+   }
+   @media all and (max-width: 480px) and (orientation:landscape) {
+    form {
+     position:relative!important;
+     margin:20px auto 0!important;
+     top:0!important;
+     left:0!important;
+    }
    }
    form input, form button {
     display:block!important;
@@ -36,10 +46,9 @@
    form button:focus {border-color:#fff!important;}
    form button:active {border-color:#396bbc!important;}
    .footer {
-    width:300px;
-    margin:0 auto 0;
-    padding:10px 0;
-    font-size:11px;
+    font:normal normal 11px arial,sans-serif!important;
+    margin:0!important;
+    padding:10px 0!important;
    }
    form .msg {
     -webkit-animation:message .7s infinite ease alternate!important;
@@ -58,13 +67,25 @@
     0% {opacity:.3}
     100% {opacity:1}
    }
-   .footer a {text-decoration:none; color:#fff;}
+   h1, .footer {
+    color:#fff;
+    text-align:center;
+    text-shadow:0 -1px 0 rgba(0,0,0,.5);
+    border:0!important;
+    height:initial!important;
+   }
+   h1 {
+    font:normal bold 32px arial,sans-serif!important;
+    margin:0 0 20px!important;
+    padding:0!important;
+   }
+   .footer a {text-decoration:none; color:#fff; border:0!important;}
 
    .standalone {display:none;}
 
    .ios {min-height:300px;}
    .ios .standalone {
-    z-index:65535;
+    z-index:999999;
     display:block;
     width:180px;
     position:fixed;
@@ -126,35 +147,40 @@
   </style>
  </head>
  <body>
- <h1>CryptoPass</h1>
  <script type="text/javascript" src="https://rawgit.com/w3core/cryptopass/master/src/script.js"></script>
-
+ <h1>CryptoPass</h1>
+ <div class="footer">
+  <a href="https://github.com/w3core/cryptopass/" target="_blank">How to install the widget on your desktop?</a>
+ </div>
+ <div class="standalone">Please, add this application<br />to "<b>Home Screen</b>" to use as<br />standalone secured application!</div>
  <script type="text/javascript">
  (new function(){
-  var original = document.querySelector('[name=close]');
-  var url = document.createElement('input');
-  url.placeholder = 'Enter site URL';
-  url.type = 'text';
-  url.name = 'url';
-  url.value = '';
-  original.parentNode.insertBefore(url,original);
+  var header = document.querySelector('h1');
+  var footer = document.querySelector('.footer');
+  var form = document.querySelector('form');
+  var close = form.querySelector('.close');
+  var name = form.querySelector('.nm');
+  var label = name.parentNode;
 
-  url.focus();
+  form.standalone = true;
+  form.insertBefore(name,close);
+  form.removeChild(label);
+  form.insertBefore(header,name);
+  form.appendChild(footer);
+  name.className = '';
+  name.value = '';
+  name.focus();
 
   document.addEventListener('keydown', function (e) {
    if (e.keyCode == 27) {
-    url.value = '';
+    name.value = '';
     $_cryptopass_$.show();
-    url.focus();
+    name.focus();
    }
   }, false);
 
-  var btn = document.querySelector('[name=preview]');
-  if (btn) {
-   btn.addEventListener('click', function(e){
-    btn.blur();
-   }, false);   
-  }
+  var btn = form.querySelector('.view');
+  btn.addEventListener('click', function(e){ btn.blur(); }, false);   
 
   if (!navigator.standalone) {
    if (navigator.userAgent.match(/i(pod|phone);/i)) document.body.className = 'ios';
@@ -162,9 +188,5 @@
   }
  }());
  </script>
- <div class="footer">
-  <a href="https://github.com/w3core/cryptopass/" target="_blank">How to install the widget on your desktop?</a>
- </div>
- <div class="standalone">Please, add this application<br />to "<b>Home Screen</b>" to use as<br />standalone secured application!</div>
 </body>
 </html>
