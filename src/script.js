@@ -272,7 +272,7 @@ this.low):32>b?new a(this.high>>>b,this.low>>>b|this.high<<32-b):32==b?new a(0,t
   + "<button type=button class=cls title='Close [ESC]'>&times;</button>"
   + "<style>"
   + "#-R- :focus{outline:none}#-R- ::-moz-focus-inner{border:0}"
-  + "#-R-{z-index:999999;display:block;position:fixed;top:0;left:0;margin:0;padding:0;border-radius:0 0 3px 0;box-shadow:0 0 200px 100px #fff;width:auto;height:auto;white-space:nowrap;font-size:0;line-height:0}"
+  + "#-R-{z-index:9999999999;display:block;position:fixed;top:0;left:0;margin:0;padding:0;border-radius:0 0 3px 0;box-shadow:0 0 200px 100px #fff;width:auto;height:auto;white-space:nowrap;font-size:0;line-height:0}"
   + "#-R- *{position:relative;height:32px;min-height:initial;border-radius:0;vertical-align:middle;box-sizing:border-box;box-shadow:none;margin:0 0 0 -1px;text-decoration:none;text-transform:none;border:1px solid #4173c9;padding:0;color:#fff}"
   + "#-R-:before {content:'';display:block;position:absolute;width:100%;height:100%;box-shadow:0 1px 2px rgba(0,0,0,.5);border-radius:0 0 3px 0}"
   + "#-R- input{z-index:1;display:inline-block;width:160px;background:#f3f3f3;text-shadow:1px 1px 0 #fff;font:normal normal 13px arial,sans-serif;line-height:30px;text-align:center;color:#333;box-shadow:inset 0px 1px 6px rgba(0,0,0,.3)}"
