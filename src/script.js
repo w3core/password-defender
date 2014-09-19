@@ -66,7 +66,7 @@
 
  if(self.$_pd_$!=null) return self.$_pd_$.show();
 
- var that=this,click='click',CLOSE,NAME,PASSPHRASE,VIEW,HERE,MSG;
+ var that=this,click='click',CLOSE,NAME,PASSPHRASE,VIEW,HERE,MSG,module;
 
  function __construct () {
   initEscapeHandler();
