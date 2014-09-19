@@ -1,7 +1,7 @@
 /**
- * CryptoPass
+ * PasswordDefender :pd:
  * 
- * CryptoPass is the tiny bookmark script which allows to create unique strong
+ * PasswordDefender is the tiny bookmark script which allows to create unique strong
  * one-side password for each unique site by using your master password.
  *
  * Features
@@ -39,7 +39,7 @@
  * 
  * @version 2014.09.19
  * 
- * @url http://w3core.github.io/cryptopass
+ * @url http://w3core.github.io/password-defender
  * @license BSD License
  * @author Max Chuhryaev
  * 
@@ -64,7 +64,7 @@
 
 (!new function(HTML,self,document,location,unescape,encodeURIComponent,userAgent,String,alert,setTimeout){
 
- if(self.$_cryptopass_$!=null) return self.$_cryptopass_$.show();
+ if(self.$_pd_$!=null) return self.$_pd_$.show();
 
  var that=this,click='click',CLOSE,NAME,PASSPHRASE,VIEW,HERE,MSG;
 
@@ -87,7 +87,7 @@
  }
 
  function DOM () {
-  var s = self.$_cryptopass_$;
+  var s = self.$_pd_$;
   if (s == null) {
    var _ = {'opera':'-o-','firefox':'-moz-','webkit':'-webkit-'};
    var ua = userAgent.match(/opera|firefox|webkit/);
@@ -109,7 +109,7 @@
     if (!o) return false;
     prompt('Your password is:', make(o.name,o.pwd));
    });
-   self.$_cryptopass_$ = s;
+   self.$_pd_$ = s;
   }
   return s;
  }

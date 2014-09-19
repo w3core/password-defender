@@ -5,7 +5,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <meta content="application/xhtml+xml; charset=utf-8" http-equiv="content-type" />
-  <title>CryptoPass Mobile</title>
+  <title>Password Defender Mobile</title>
   <style type="text/css">
    html,body {background:#5e8ee4;margin:0;padding:0;}
    h1, button, .footer, .standalone {-webkit-user-select:none; user-select:none;}
@@ -148,10 +148,10 @@
   </style>
  </head>
  <body>
- <script type="text/javascript" src="https://rawgit.com/w3core/cryptopass/master/src/script.min.js"></script>
- <h1>CryptoPass</h1>
+ <script type="text/javascript" src="https://rawgit.com/w3core/password-defender/master/src/script.min.js"></script>
+ <h1>:pd:</h1>
  <div class="footer">
-  <a href="https://github.com/w3core/cryptopass/" target="_blank">How to install the widget on your desktop?</a>
+  <a href="https://github.com/w3core/password-defender/" target="_blank">How to install the widget on your desktop?</a>
  </div>
  <div class="standalone">Please, add this application<br />to "<b>Home Screen</b>" to use as<br />standalone secured application!</div>
  <script type="text/javascript">
@@ -175,7 +175,7 @@
   document.addEventListener('keydown', function (e) {
    if (e.keyCode == 27) {
     name.value = '';
-    $_cryptopass_$.show();
+    $_pd_$.show();
     name.focus();
    }
   }, false);
