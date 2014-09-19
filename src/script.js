@@ -37,7 +37,7 @@
  * 3. Wrap minified and encoded script "javascript:void(SOURCE)"
  * 4. Save as "bookmark.js"
  * 
- * @version 2014.09.18
+ * @version 2014.09.19
  * 
  * @url http://w3core.github.io/cryptopass
  * @license BSD License
@@ -268,30 +268,31 @@ this.low):32>b?new a(this.high>>>b,this.low>>>b|this.high<<32-b):32==b?new a(0,t
 65535)+(f>>>16);return new a((this.high>>>16)+(b.high>>>16)+(e>>>16)<<16|e&65535,f<<16|h&65535)};a.prototype.toHexString=function(){return I(this.high)+I(this.low)};'undefined'!=typeof module?(k.sha512=k,k.sha384=F,k.sha512_256=G,k.sha512_224=H,module.exports=k):m&&(m.sha512=k,m.sha384=F,m.sha512_256=G,m.sha512_224=H)})(this);
 
 }(
-    '<form id="-R-" action="javascript:void(0)">'
-  + '<button type="button" class="cls" title="Close [ESC]">&times;</button>'
-  + '<style type="text/css">'
-  + '#-R- :focus{outline:none}#-R- ::-moz-focus-inner{border:0}'
-  + '#-R-{z-index:999999;display:block;position:fixed;top:0;left:0;margin:0;padding:0;border-radius:0 0 3px 0;box-shadow:0 0 250px 100px #fff;width:auto;height:auto;white-space:nowrap;font-size:0;line-height:0}'
-  + '#-R- *{position:relative;height:32px;min-height:initial;border-radius:0;vertical-align:middle;box-sizing:border-box;box-shadow:none;margin:0 0 0 -1px;text-decoration:none;text-transform:none;border:1px solid #4173c9;padding:0;color:#fff}'
-  + '#-R-:before {content:"";display:block;position:absolute;width:100%;height:100%;box-shadow:0 1px 2px rgba(0,0,0,.5);border-radius:0 0 3px 0}'
-  + '#-R- input{z-index:1;display:inline-block;width:160px;background:#f3f3f3;text-shadow:1px 1px 0 #fff;font:normal normal 13px arial,sans-serif;line-height:30px;text-align:center;color:#333;box-shadow:inset 0px 1px 6px rgba(0,0,0,.3)}'
-  + '#-R- button,#-R- label{z-index:2;cursor:pointer;display:inline-block;font:normal bold 16px arial,sans-serif;width:32px;line-height:28px;text-shadow:0 -1px 0 rgba(0,0,0,.5);background:-moz-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5e8ee4),color-stop(100%,#4173c9));background:-webkit-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-o-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-ms-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:linear-gradient(to bottom,#5e8ee4 0,#4173c9 100%)}'
-  + '#-R- button:hover,#-R- label:hover,#-R- .msg{border-color:#396bbc;background:-moz-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5587d7),color-stop(100%,#396bbc));background:-webkit-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-o-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-ms-linear-gradient(top,#5587d7 0,#396bbc 100%);background:linear-gradient(to bottom,#5587d7 0,#396bbc 100%)}'
-  + '#-R- button:active{box-shadow:inset 0 2px 4px rgba(0,0,0,.24)}#-R->:last-child{border-radius:0 0 2px 0}'
-  + '#-R- .msg{display:none;position:absolute;font:normal normal 11px arial;white-space:normal;top:100%;left:30px;padding:2px 4px;height:auto;width:160px;border-radius:3px;margin:6px 0 0;text-align:center;box-shadow:0 1px 2px rgba(0,0,0,.5);text-shadow:0 -1px 0 rgba(0,0,0,.3);-P-animation:-R- .5s infinite ease alternate}'
-  + '#-R- .msg:before{content:"";position:absolute;left:50%;top:-6px;margin:0 0 0 -5px;display:block;width:0;height:0;border-style:solid;border-width:0 5px 6px 5px;border-color:transparent transparent #5587d7 transparent}'
-  + '#-R- label{width:auto;padding:0 0 0 6px}'
-  + '#-R- .nm{cursor:pointer;background:transparent;border:0;height:30px;margin-left:6px;color:#fff;text-align:left;text-shadow:0 -1px 0 rgba(0,0,0,.5);box-shadow:none;-P-transition:width .3s,min-width .3s}'
-  + '#-R- .nm:focus{cursor:initial;min-width:160px!important;background:#f3f3f3;text-align:center;text-shadow:1px 1px 0 #fff;box-shadow:inset 0px 1px 6px rgba(0,0,0,.3);color:#333}'
-  + '@-P-keyframes -R-{from{-P-transform:translateY(0)}to{-P-transform:translateY(10px)}}'
-  + '</style>'
-  + '<input class="pwd" type="password" placeholder="Enter your password" />'
-  + '<label title="Enter site name or URL">@<input class="nm" type="text" placeholder="Enter site name or URL" /></label>'
-  + '<i class="msg"></i>'
-  + '<button type="button" class="view" title="Show encrypted password">&odot;</button>'
-  + '<button type="submit" title="Paste encrypted password to active password field">&#9658;</button>'
-  + '</form>'
+    "<form id=-R- action='javascript:void(0)'>"
+  + "<button type=button class=cls title='Close [ESC]'>&times;</button>"
+  + "<style>"
+  + "#-R- :focus{outline:none}#-R- ::-moz-focus-inner{border:0}"
+  + "#-R-{z-index:999999;display:block;position:fixed;top:0;left:0;margin:0;padding:0;border-radius:0 0 3px 0;box-shadow:0 0 200px 100px #fff;width:auto;height:auto;white-space:nowrap;font-size:0;line-height:0}"
+  + "#-R- *{position:relative;height:32px;min-height:initial;border-radius:0;vertical-align:middle;box-sizing:border-box;box-shadow:none;margin:0 0 0 -1px;text-decoration:none;text-transform:none;border:1px solid #4173c9;padding:0;color:#fff}"
+  + "#-R-:before {content:'';display:block;position:absolute;width:100%;height:100%;box-shadow:0 1px 2px rgba(0,0,0,.5);border-radius:0 0 3px 0}"
+  + "#-R- input{z-index:1;display:inline-block;width:160px;background:#f3f3f3;text-shadow:1px 1px 0 #fff;font:normal normal 13px arial,sans-serif;line-height:30px;text-align:center;color:#333;box-shadow:inset 0px 1px 6px rgba(0,0,0,.3)}"
+  + "#-R- button,#-R- label{z-index:2;cursor:pointer;display:inline-block;font:normal bold 16px arial,sans-serif;width:32px;line-height:28px;text-shadow:0 -1px 0 rgba(0,0,0,.5);background:-moz-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5e8ee4),color-stop(100%,#4173c9));background:-webkit-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-o-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-ms-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:linear-gradient(to bottom,#5e8ee4 0,#4173c9 100%)}"
+  + "#-R- button:hover,#-R- label:hover,#-R- .msg{border-color:#396bbc;background:-moz-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5587d7),color-stop(100%,#396bbc));background:-webkit-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-o-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-ms-linear-gradient(top,#5587d7 0,#396bbc 100%);background:linear-gradient(to bottom,#5587d7 0,#396bbc 100%)}"
+  + "#-R- button:active{box-shadow:inset 0 2px 4px rgba(0,0,0,.24)}#-R->:last-child{border-radius:0 0 2px 0}"
+  + "#-R- .msg{display:none;position:absolute;font:normal normal 11px arial;white-space:normal;top:100%;left:30px;padding:2px 4px;height:auto;width:160px;border-radius:3px;margin:6px 0 0;text-align:center;box-shadow:0 1px 2px rgba(0,0,0,.5);text-shadow:0 -1px 0 rgba(0,0,0,.3);-P-animation:-R- .5s infinite ease alternate}"
+  + "#-R- .msg:before{content:'';position:absolute;left:50%;top:-6px;margin:0 0 0 -5px;display:block;width:0;height:0;border-style:solid;border-width:0 5px 6px 5px;border-color:transparent transparent #5587d7 transparent}"
+  + "#-R- label{width:auto;padding:0 0 0 6px}"
+  + "#-R- .nm{cursor:pointer;background:transparent;border:0;height:30px;margin-left:6px;color:#fff;text-align:left;text-shadow:0 -1px 0 rgba(0,0,0,.5);box-shadow:none;-P-transition:width .3s,min-width .3s;-P-animation:-R-nm .5s infinite linear alternate}"
+  + "#-R- .nm:focus{cursor:initial;min-width:160px!important;background:#f3f3f3;text-align:center;text-shadow:1px 1px 0 #fff;box-shadow:inset 0px 1px 6px rgba(0,0,0,.3);color:#333;-P-animation:none}"
+  + "@-P-keyframes -R-{from{-P-transform:translateY(0)}to{-P-transform:translateY(10px)}}"
+  + "@-P-keyframes -R-nm{from{opacity:1}to{opacity:.3}}"
+  + "</style>"
+  + "<input class=pwd type=password placeholder='Enter your password'>"
+  + "<label title='Enter site name or URL'>@<input class=nm type=text placeholder='Enter site name or URL'></label>"
+  + "<i class=msg></i>"
+  + "<button type=button class=view title='Show encrypted password'>&odot;</button>"
+  + "<button type=submit title='Paste encrypted password to active password field'>&#9658;</button>"
+  + "</form>"
   , self
   , document
   , location
