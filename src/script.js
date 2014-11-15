@@ -37,7 +37,7 @@
  * 3. Wrap minified and encoded script "javascript:void(SOURCE)"
  * 4. Save as "bookmark.js"
  * 
- * @version 2014.09.19
+ * @version 2014.11.15
  * 
  * @url http://w3core.github.io/password-defender
  * @license BSD License
@@ -46,6 +46,7 @@
  * @constructor
  * @uses https://github.com/emn178/js-sha512
  * @uses http://javascript-minifier.com/
+ * @uses http://gpbmike.github.io/refresh-sf/
  * @uses http://meyerweb.com/eric/tools/dencoder/
  * 
  * 
@@ -66,7 +67,7 @@
 
  if(self.$_pd_$!=null) return self.$_pd_$.show();
 
- var that=this,click='click',CLOSE,NAME,PASSPHRASE,VIEW,HERE,MSG,module;
+ var that=this,click='click',CLOSE,NAME,PASSPHRASE,VIEW,HERE,MSG,LVL,module;
 
  function __construct () {
   initEscapeHandler();
@@ -78,7 +79,7 @@
    if (!HERE) return alert('Please, set focus to password field where the password should to be pasted and then press "PASTE" button');
    HERE.focus();
    setTimeout(function(){
-    HERE.value = make(o.name,o.pwd);
+    HERE.value = make(o.name,o.pwd,o.low);
    },100);
   });
   initNameFieldHandler();
@@ -100,6 +101,7 @@
    NAME = s.querySelector('.nm');
    PASSPHRASE = s.querySelector('.pwd');
    MSG =  s.querySelector('.msg');
+   LVL = s.querySelector('.md');
    s.show = show;
    CLOSE = s.querySelector('.cls');
    if (CLOSE) handle(click, CLOSE, hide);
@@ -107,7 +109,7 @@
    if (VIEW) handle(click, VIEW, function(){
     var o = opts();
     if (!o) return false;
-    prompt('Your password is:', make(o.name,o.pwd));
+    prompt('Your password is:', make(o.name,o.pwd,o.low));
    });
    self.$_pd_$ = s;
   }
@@ -146,6 +148,7 @@
    return !1;
   }
   o.pwd = PASSPHRASE.value;
+  o.low = !!(LVL && !LVL.checked);
   return o;
  }
 
@@ -184,28 +187,28 @@
   });
  }
 
- function make (name, passphrase) {
-  var passwd = unescape(encodeURIComponent(passphrase));
-  var result = that.sha512(passwd).toString();
-  var sum = 0;
+ function make (name, passphrase, simple) {
+  var length = !!simple?24:32,
+      chars = 'abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'+(!simple?'!$@_-~ ':''),
+      passwd = unescape(encodeURIComponent(passphrase)),
+      result = that.sha512(passwd).toString(),
+      sum = 0;
   for (var i=0; i<passwd.length; i++) sum += passwd.charCodeAt(i);
-  var i = (sum % 61) + 32;
+  var i = (sum % 61) + length;
   result = that.sha512(result.substr(0,i) + name + result.substr(i) + String.fromCharCode( '0x'+sum%251 )).toString();
-  result = result.substr(0+sum%31, 32*3);
-  return passFromHash(result, 32);
+  result = result.substr(0+sum%31, length*3);
+  return passFromHash(result, length, chars);
  }
 
- function passFromHash (hash,passLength) {
+ function passFromHash (hash, passLength, chars) {
   // hash.lenght must be >= passLength * HEX2CHAR
-  var HEX2CHAR = 3;
-  var CHARS = 'abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!$@_-~ ';
-  var result = '';
+  var HEX2CHAR = 3, result = '';
   for (var i = 0; i<passLength; i++) {
-   var partText = hash.substring(i*HEX2CHAR,(i+1)*HEX2CHAR);
-   var partVal  = parseInt(partText,16);
+   var partText = hash.substring(i*HEX2CHAR,(i+1)*HEX2CHAR),
+       partVal  = parseInt(partText,16);
    if (isNaN(partVal)) { throw('code:1'); } // Too short hash string
    if (partVal < 0) { throw('code:2'); } // Invalid hash string
-   result += '' + CHARS.charAt(partVal % CHARS.length);
+   result += '' + chars.charAt(partVal % chars.length);
   }
   return result;
  }
@@ -275,20 +278,26 @@ this.low):32>b?new a(this.high>>>b,this.low>>>b|this.high<<32-b):32==b?new a(0,t
   + "#-R-{z-index:9999999999;display:block;position:fixed;top:0;left:0;margin:0;padding:0;border-radius:0 0 3px 0;box-shadow:0 0 200px 100px #fff;width:auto;height:auto;white-space:nowrap;font-size:0;line-height:0}"
   + "#-R- *{position:relative;height:32px;min-height:initial;border-radius:0;vertical-align:middle;box-sizing:border-box;box-shadow:none;margin:0 0 0 -1px;text-decoration:none;text-transform:none;border:1px solid #4173c9;padding:0;color:#fff}"
   + "#-R-:before {content:'';display:block;position:absolute;width:100%;height:100%;box-shadow:0 1px 2px rgba(0,0,0,.5);border-radius:0 0 3px 0}"
-  + "#-R- input{z-index:1;display:inline-block;width:160px;background:#f3f3f3;text-shadow:1px 1px 0 #fff;font:normal normal 13px arial,sans-serif;line-height:30px;text-align:center;color:#333;box-shadow:inset 0px 1px 6px rgba(0,0,0,.3)}"
+  + "#-R- input{z-index:1;display:inline-block;background:#f3f3f3;text-shadow:1px 1px 0 #fff;font:normal normal 13px arial,sans-serif;line-height:30px;text-align:center;color:#333;box-shadow:inset 0px 1px 6px rgba(0,0,0,.3)}"
   + "#-R- button,#-R- label{z-index:2;cursor:pointer;display:inline-block;font:normal bold 16px arial,sans-serif;width:32px;line-height:28px;text-shadow:0 -1px 0 rgba(0,0,0,.5);background:-moz-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5e8ee4),color-stop(100%,#4173c9));background:-webkit-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-o-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:-ms-linear-gradient(top,#5e8ee4 0,#4173c9 100%);background:linear-gradient(to bottom,#5e8ee4 0,#4173c9 100%)}"
   + "#-R- button:hover,#-R- label:hover,#-R- .msg{border-color:#396bbc;background:-moz-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5587d7),color-stop(100%,#396bbc));background:-webkit-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-o-linear-gradient(top,#5587d7 0,#396bbc 100%);background:-ms-linear-gradient(top,#5587d7 0,#396bbc 100%);background:linear-gradient(to bottom,#5587d7 0,#396bbc 100%)}"
   + "#-R- button:active{box-shadow:inset 0 2px 4px rgba(0,0,0,.24)}#-R->:last-child{border-radius:0 0 2px 0}"
   + "#-R- .msg{display:none;position:absolute;font:normal normal 11px arial;white-space:normal;top:100%;left:30px;padding:2px 4px;height:auto;width:160px;border-radius:3px;margin:6px 0 0;text-align:center;box-shadow:0 1px 2px rgba(0,0,0,.5);text-shadow:0 -1px 0 rgba(0,0,0,.3);-P-animation:-R- .5s infinite ease alternate}"
   + "#-R- .msg:before{content:'';position:absolute;left:50%;top:-6px;margin:0 0 0 -5px;display:block;width:0;height:0;border-style:solid;border-width:0 5px 6px 5px;border-color:transparent transparent #5587d7 transparent}"
-  + "#-R- label{width:auto;padding:0 0 0 6px}"
+  + "#-R- .lnm{width:auto;padding:0 0 0 6px}"
+  + "#-R- .pwd{width:160px}"
+  + "#-R- .md{display:none}"
+  + "#-R- .lmd i{border:0;font-style:normal;font-size:10px}"
+  + "#-R- .md+i:before{content:'\u25BC24';line-height:29px;display:inline-block;width:100%;text-align:center}"
+  + "#-R- .md:checked+i:before{content:'\u25B232'}"
   + "#-R- .nm{cursor:pointer;background:transparent;border:0;height:30px;margin-left:6px;color:#fff;text-align:left;text-shadow:0 -1px 0 rgba(0,0,0,.5);box-shadow:none;-P-transition:width .3s,min-width .3s;-P-animation:-R-nm .5s infinite linear alternate}"
   + "#-R- .nm:focus{cursor:initial;min-width:160px!important;background:#f3f3f3;text-align:center;text-shadow:1px 1px 0 #fff;box-shadow:inset 0px 1px 6px rgba(0,0,0,.3);color:#333;-P-animation:none}"
   + "@-P-keyframes -R-{from{-P-transform:translateY(0)}to{-P-transform:translateY(10px)}}"
   + "@-P-keyframes -R-nm{from{opacity:1}to{opacity:.3}}"
   + "</style>"
   + "<input class=pwd type=password placeholder='Enter your password'>"
-  + "<label title='Enter site name or URL'>@<input class=nm type=text placeholder='Enter site name or URL'></label>"
+  + "<label class=lnm title='Enter site name or URL'>@<input class=nm type=text placeholder='Enter site name or URL'></label>"
+  + "<label class=lmd title='\u25B2 32 characters alphanumeric/special\n\u25BC 24 characters alphanumeric only ! ! !' onclick=''><input class=md type=checkbox checked><i></i></label>"
   + "<i class=msg></i>"
   + "<button type=button class=view title='Show encrypted password'>&odot;</button>"
   + "<button type=submit title='Paste encrypted password to active password field'>&#9658;</button>"

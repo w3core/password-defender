@@ -9,7 +9,7 @@
   <style type="text/css">
    html,body {background:#5e8ee4;margin:0;padding:0;}
    h1, button, .footer, .standalone {-webkit-user-select:none; user-select:none;}
-   form:before, .cls, [type=submit]{display:none!important}
+   form:before, .cls, .md, [type=submit]{display:none!important}
 
    form {
     width:300px!important;
@@ -67,6 +67,12 @@
    @-webkit-keyframes message {
     0% {opacity:.3}
     100% {opacity:1}
+   }
+   .lmd {
+    position:absolute!important;
+    margin:-32px 0 0!important;
+    border-top-left-radius:3px!important;
+    border-bottom-left-radius:3px!important;
    }
    h1, .footer {
     color:#fff;
@@ -161,12 +167,16 @@
   var form = document.querySelector('form');
   var close = form.querySelector('.cls');
   var name = form.querySelector('.nm');
+  var mode = form.querySelector('.lmd');
+  var btn = form.querySelector('.view');
+  var submit = form.querySelector('[type=submit]');
   var label = name.parentNode;
 
   form.standalone = true;
   form.insertBefore(name,close);
   form.removeChild(label);
   form.insertBefore(header,name);
+  form.insertBefore(mode,submit);
   form.appendChild(footer);
   name.className = '';
   name.value = '';
@@ -180,7 +190,6 @@
    }
   }, false);
 
-  var btn = form.querySelector('.view');
   btn.addEventListener('click', function(e){ btn.blur(); }, false);   
 
   if (!navigator.standalone) {
