@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+ <head>
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta content="application/xhtml+xml; charset=utf-8" http-equiv="content-type" />
+  <title>Password Defender Mobile</title>
+  <style type="text/css">
+   html,body {background:#5e8ee4;margin:0;padding:0;}
+   h1, button, .footer, .standalone {-webkit-user-select:none; user-select:none;}
+   form:before, .cls, .md, [type=submit]{display:none!important}
+   form {
+    width:300px!important;
+    position:absolute!important;
+    top:50%!important;
+    left:50%!important;
+    margin:-130px 0 0 -150px!important;
+    box-shadow:none!important;
+   }
+   form:after {
+    content:"";
+    display:block;
+    height:80px;
+   }
+   @media all and (max-width: 480px) and (orientation:landscape) {
+    form {
+     position:relative!important;
+     margin:20px auto 0!important;
+     top:0!important;
+     left:0!important;
+    }
+   }
+   form input, form button {
+    display:block!important;
+    width:100%!important;
+    margin:10px 0 0!important;
+    border-radius:3px!important;
+   }
+   form input:focus {
+    box-shadow:inset 0 2px 4px rgba(0,0,0,.24)!important;
+    color:#5e8ee4!important;
+    text-shadow:none!important;
+   }
+   form button:focus {border-color:#fff!important;}
+   form button:active {border-color:#396bbc!important;}
+   .footer {
+    font:normal normal 11px arial,sans-serif!important;
+    margin:0!important;
+    padding:10px 0!important;
+   }
+   form .nm {-webkit-animation:none!important}
+   form .msg {
+    -webkit-animation:message .7s infinite ease alternate!important;
+    position:relative!important;
+    box-shadow:none!important;
+    width:100%!important;
+    left:0!important;
+    border-color:#fff!important;
+    background:#fff!important;
+    color:#396bbc!important;
+    text-shadow:initial!important;
+    text-align:center!important;
+   }
+   form .msg:before {border-color:transparent transparent #fff transparent!important;}
+   @-webkit-keyframes message {
+    0% {opacity:.3}
+    100% {opacity:1}
+   }
+   .lmd {
+    position:absolute!important;
+    margin:-32px 0 0!important;
+    border-top-left-radius:3px!important;
+    border-bottom-left-radius:3px!important;
+   }
+   h1, .footer {
+    color:#fff;
+    text-align:center;
+    text-shadow:0 -1px 0 rgba(0,0,0,.5);
+    border:0!important;
+    height:initial!important;
+   }
+   h1 {
+    font:normal bold 32px arial,sans-serif!important;
+    margin:0 0 20px!important;
+    padding:0!important;
+   }
+   .footer a {text-decoration:none; color:#fff; border:0!important;}
+   .standalone {display:none;}
+   .ios {min-height:300px;}
+   .ios .standalone {
+    z-index:99999999999;
+    display:block;
+    width:180px;
+    position:fixed;
+    bottom:0;
+    left:50%;
+    margin:0 0 10px -91px;
+    padding:10px 0;
+    text-align:center;
+    font:normal normal 11px sans-serif;
+    color:#fff;
+    text-shadow:0 -1px 0 rgba(0,0,0,.5);
+    box-shadow: 0px 1px 10px rgba(0,0,0,.5);
+    border:1px solid #fff;
+    border-radius:3px;
+    background:-moz-linear-gradient(top,#5e8ee4 0,#4173c9 100%);
+    background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#5e8ee4),color-stop(100%,#4173c9));
+    background:-webkit-linear-gradient(top,#5e8ee4 0,#4173c9 100%);
+    background:-o-linear-gradient(top,#5e8ee4 0,#4173c9 100%);
+    background:-ms-linear-gradient(top,#5e8ee4 0,#4173c9 100%);
+    background:linear-gradient(to bottom,#5e8ee4 0,#4173c9 100%);
+    -webkit-animation:jump .5s infinite ease alternate;
+   }
+   .ios .standalone:after {
+    content:"";
+    display:block;
+    width:10px;
+    height:10px;
+    position:absolute;
+    left:50%;
+    background:#4173c9;
+    bottom:-6px;
+    border:1px solid #fff;
+    -webkit-transform:rotate(45deg);
+    margin:0 0 0 -5px;
+    border-width:0 1px 1px 0;
+    border-radius:100% 0 0 0;
+   }
+   @-webkit-keyframes jump {
+    from {-webkit-transform:translate3d(0,3px,0);}
+    to {-webkit-transform:translate3d(0,-10px,0);}
+   }
+   .ios.tablet .standalone {
+    top:0;
+    left:145px;
+    height:42px;
+    -webkit-animation:jump-tab .5s infinite ease alternate;
+   }
+   .ios.tablet .standalone:after {
+    top:-6px;
+    background:#5e8ee4!important;
+    border-width:1px 0 0 1px!important;
+    border-radius:0 0 100% 0!important;
+   }
+   @-webkit-keyframes jump-tab {
+    from {-webkit-transform:translate3d(0,7px,0);}
+    to {-webkit-transform:translate3d(0,17px,0);}
+   }
+  </style>
+ </head>
+ <body>
+ <script type="text/javascript" src="https://rawgit.com/w3core/password-defender/master/src/script.min.js"></script>
+ <h1 title="Password Defender for mobile">:pd:</h1>
+ <div class="footer">
+  <a href="https://github.com/w3core/password-defender/" target="_blank">How to install the widget on your desktop?</a>
+ </div>
+ <div class="standalone">Please, add this application<br />to "<b>Home Screen</b>" to use as<br />standalone secured application!</div>
+ <script type="text/javascript">
+ (new function(){
+  var header = document.querySelector('h1');
+  var footer = document.querySelector('.footer');
+  var form = document.querySelector('form');
+  var close = form.querySelector('.cls');
+  var name = form.querySelector('.nm');
+  var mode = form.querySelector('.lmd');
+  var btn = form.querySelector('.view');
+  var submit = form.querySelector('[type=submit]');
+  var label = name.parentNode;
+  form.standalone = true;
+  form.insertBefore(name,close);
+  form.removeChild(label);
+  form.insertBefore(header,name);
+  form.insertBefore(mode,submit);
+  form.appendChild(footer);
+  name.className = '';
+  name.value = '';
+  name.focus();
+  document.addEventListener('keydown', function (e) {
+   if (e.keyCode == 27) {
+    name.value = '';
+    $_pd_$.show();
+    name.focus();
+   }
+  }, false);
+  btn.addEventListener('click', function(e){ btn.blur(); }, false);   
+  if (!navigator.standalone) {
+   if (navigator.userAgent.match(/i(pod|phone);/i)) document.body.className = 'ios';
+   else if (navigator.userAgent.match(/ipad;/i)) document.body.className = 'ios tablet';
+  }
+ }());
+ </script>
+</body>
+</html>
