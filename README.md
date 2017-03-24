@@ -1,7 +1,7 @@
 PasswordDefender
 ================
 
-[PasswordDefender](https://w3core.github.io/ "PasswordDefender mobile version") is the tiny
+[PasswordDefender](https://w3core.github.io/password-defender "PasswordDefender mobile version") is the tiny
 bookmark script which allows to create unique strong one-side password for each
 unique site by using your master password 
 
@@ -13,7 +13,7 @@ Features
 + The generated password is extra strong and long independently by length of
   master password
 + Does not require any registration, storage and any extentions
-+ Cross browser support (Note: The mobile version can be found [here](https://w3core.github.io/ "PasswordDefender mobile version"))
++ Cross browser support (Note: The mobile version can be found [here](https://w3core.github.io/password-defender "PasswordDefender mobile version"))
 + Offline mode support
 + Extra simple for usage
 
@@ -51,7 +51,7 @@ So for mobile gadgets, you can use the following solution.
 
 1. Open the site on which you want to "sign-in" or "sign-up" and copy the URL to the clipboard
    ![Usage on mobile](https://rawgit.com/w3core/password-defender/master/src/site/img/m/mobile-step-0.png)
-2. Open the ["PasswordDefender for Mobile"](https://w3core.github.io/ "PasswordDefender mobile version") website
+2. Open the ["PasswordDefender for Mobile"](https://w3core.github.io/password-defender "PasswordDefender mobile version") website
    ![Usage on mobile](https://rawgit.com/w3core/password-defender/master/src/site/img/m/mobile-step-1.png)
 3. Paste the copied to clipboard site URL to the "Enter site URL" field
    ![Usage on mobile](https://rawgit.com/w3core/password-defender/master/src/site/img/m/mobile-step-2.png)
